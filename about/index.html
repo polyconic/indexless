@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>About – indexless</title>
+    <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
+    <style>
+      body {
+        font-family: 'Helvetica Neue', sans-serif;
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 2rem;
+        text-align: center;
+      }
 
+      nav {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+      }
+
+      nav a {
+        margin-right: 1rem;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+        bottom: -4px;
+        background-color: #00aaff;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #00aaff;
+      }
+
+      nav a:hover::after {
+        transform: scaleX(1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        max-width: 600px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 1rem;
+        font-size: 0.9rem;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/writing/">writing</a>
+      <a href="/about/">about</a>
+    </nav>
+
+    <h1>About</h1>
+    <p>
+      We make images, sounds, and systems.<br />
+      This space is a public node for thoughts, fragments, and longer-form writing on privacy, digital culture, decentralization, and entropy in the human way.
+    </p>
+
+    <footer>© 2025</footer>
+  </body>
+</html>
