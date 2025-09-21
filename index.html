@@ -3,36 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <title>indexless</title>
-    <!-- Favicon -->
-  <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
-
+    <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
     <style>
       body {
         font-family: 'Helvetica Neue', sans-serif;
         background-color: #000;
         color: #fff;
+        height: 100vh;
+        margin: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
-        margin: 0;
-      }
-
-      h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-
-      a {
         position: relative;
+      }
+
+      nav {
+        position: absolute;
+        top: 1rem;
+        left: 1.5rem;
+      }
+
+      nav a {
+        margin-right: 1rem;
         text-decoration: none;
         color: #00aaff;
-        font-size: 1.2rem;
-        transition: color 0.3s ease;
+        font-size: 1rem;
+        position: relative;
       }
 
-      a::after {
+      nav a::after {
         content: "";
         position: absolute;
         width: 100%;
@@ -45,26 +45,73 @@
         transition: transform 0.3s ease;
       }
 
-      a:hover {
+      nav a:hover {
         color: #fff;
       }
 
-      a:hover::after {
+      nav a:hover::after {
         transform: scaleX(1);
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .main-link a {
+        position: relative;
+        text-decoration: none;
+        color: #00aaff;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+
+      .main-link a::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+        bottom: -4px;
+        background-color: #00aaff;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      .main-link a:hover {
+        color: #fff;
+      }
+
+      .main-link a:hover::after {
+        transform: scaleX(1);
+      }
+
+      footer {
+        position: absolute;
+        bottom: 1rem;
+        font-size: 0.9rem;
+        color: #666;
       }
     </style>
   </head>
   <body>
+    <nav>
+      <a href="/writing/">writing</a>
+      <a href="/about/">about</a>
+    </nav>
+
     <h1>indexless</h1>
-    <p>
-      <a href="/essays/indexlessintro.pdf" target="_blank">
+
+    <p class="main-link">
+      <a href="/writing/indexlessintro.pdf" target="_blank">
         Entropy: Digital Beauty in the Changing World.
       </a>
     </p>
 
     <footer>
-  © 2025 indexless
-</footer>
-    
+      © 2025 indexless
+    </footer>
   </body>
 </html>
