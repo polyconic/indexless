@@ -4,15 +4,12 @@
     <meta charset="UTF-8" />
     <title>indexless</title>
     <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
-
-    <!-- Open Graph -->
     <meta property="og:title" content="indexless" />
     <meta property="og:description" content="Entropy: Digital Beauty in the Changing World." />
     <meta property="og:image" content="/opengraph.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://indexless.net" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="indexless" />
     <meta name="twitter:description" content="Entropy: Digital Beauty in the Changing World." />
@@ -20,17 +17,26 @@
 
     <style>
       body {
-        font-family: 'Helvetica Neue', sans-serif;
+        font-family: monospace;
         background-color: #000;
         color: #fff;
         margin: 0;
-        height: 100vh;
-        overflow: hidden;
+        padding: 2rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        min-height: 100vh;
         position: relative;
+      }
+
+      .ascii-static pre {
+        font-size: 12px;
+        white-space: pre;
+        overflow-x: auto;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: #fff;
       }
 
       nav {
@@ -70,7 +76,7 @@
       }
 
       h1 {
-        font-size: 3rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
       }
 
@@ -109,44 +115,9 @@
         font-size: 0.9rem;
         color: #fff;
       }
-
-      /* SCROLLING ASCII */
-      .ascii-container {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        overflow: hidden;
-        white-space: nowrap;
-        z-index: 0;
-      }
-
-      .ascii {
-        display: inline-block;
-        font-family: monospace;
-        font-size: 0.65rem;
-        color: #444;
-        animation: scroll-left 30s linear infinite;
-        padding-left: 100%;
-      }
-
-      .ascii-static {
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.ascii {
-  font-family: monospace;
-  font-size: 0.65rem;
-  color: #fff;
-  line-height: 1.1;
-  white-space: pre;
-}
-      }
     </style>
   </head>
-
-    <body>
+  <body>
     <div class="ascii-static">
       <pre class="ascii">
 ██╗███╗   ██╗██████╗ ███████╗██╗  ██╗██╗     ███████╗███████╗███████╗███████╗
