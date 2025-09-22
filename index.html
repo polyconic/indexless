@@ -91,27 +91,32 @@
       }
 
       .bio {
-  font-size: 1rem;
-  color: var(--text-color); /* 👈 this makes it white in dark mode, black in light mode */
-  margin: 1.5rem 0 0.5rem 0;
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
-  text-align: left;
-  max-width: 800px;
-} 
+        font-size: 1rem;
+        color: var(--text-color);
+        margin: 1.5rem 0 0.5rem 0;
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+        text-align: left;
+        max-width: 800px;
+      }
 
-      .eu-link {
+      .eu-link,
+      .toggle-btn,
+      .email-btn {
         border: 1px solid var(--accent-color);
-        padding: 4px 8px;
+        background: transparent;
+        color: var(--accent-color);
         border-radius: 999px;
         font-size: 0.9rem;
-        color: var(--accent-color);
+        padding: 4px 10px;
         text-decoration: underline;
         text-underline-offset: 3px;
         transition: background-color 0.3s ease, color 0.3s ease;
         cursor: pointer;
       }
 
-      .eu-link:hover {
+      .eu-link:hover,
+      .toggle-btn:hover,
+      .email-btn:hover {
         background-color: var(--accent-color);
         color: var(--bg-color);
         box-shadow: 0 0 6px var(--accent-color);
@@ -125,20 +130,25 @@
         gap: 0.5rem;
       }
 
-      .toggle-btn {
-        border: 1px solid var(--accent-color);
-        background: transparent;
+      .down-arrow {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.5rem;
         color: var(--accent-color);
-        border-radius: 999px;
-        font-size: 0.9rem;
-        padding: 4px 10px;
+        animation: bounce 2s infinite;
         cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        text-decoration: none;
       }
 
-      .toggle-btn:hover {
-        background-color: var(--accent-color);
-        color: var(--bg-color);
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(6px);
+        }
       }
     </style>
 
@@ -159,6 +169,7 @@
         European Tech Alts
       </a>
       <button class="toggle-btn" onclick="toggleTheme()">☀︎ / ☾</button>
+      <a href="mailto:indexless@pm.me" class="email-btn" title="Send an Email">✉︎</a>
     </nav>
 
     <div class="ascii-static">
@@ -176,11 +187,13 @@
       fragments of thought on entropy, decentralization, and the networked self.
     </p>
 
-    <p class="main-link">
+    <p class="main-link" id="start">
       <a href="/essays/testing....pdf" target="_blank">
         The Beginning of Something Beautiful.
       </a>
     </p>
+
+    <a href="#start" class="down-arrow">↓</a>
 
     <footer>© 2025 indexless</footer>
   </body>
