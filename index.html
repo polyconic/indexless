@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <title>indexless</title>
     <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
-
-    <!-- Social meta -->
     <meta property="og:title" content="indexless" />
     <meta property="og:description" content="Entropy: Digital Beauty in the Changing World." />
     <meta property="og:image" content="/opengraph.png" />
@@ -16,81 +14,36 @@
     <meta name="twitter:description" content="Entropy: Digital Beauty in the Changing World." />
     <meta name="twitter:image" content="/opengraph.png" />
 
-    <!-- Theme styles -->
     <style>
       :root {
-        --bg: #0a0a0a;
-        --text: #fff;
-        --link: #00cc66;
-        --highlight: #00aaff;
-        --subtext: #ccc;
+        --bg-color: #0a0a0a;
+        --text-color: #fff;
+        --accent-color: #00cc66;
+        --secondary-color: #00aaff;
+        --bio-color: #888;
       }
 
-      .light-theme {
-        --bg: #fefefe;
-        --text: #000;
-        --link: #007744;
-        --highlight: #0088cc;
-        --subtext: #444;
+      body.light {
+        --bg-color: #ffffff;
+        --text-color: #000;
+        --accent-color: #007744;
+        --secondary-color: #0077cc;
+        --bio-color: #444;
       }
 
       body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
           Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
+        background-color: var(--bg-color);
+        color: var(--text-color);
         margin: 0;
         padding: 2rem;
         display: flex;
         flex-direction: column;
-        align-items: left;
+        align-items: flex-start;
         justify-content: flex-start;
         min-height: 100vh;
         position: relative;
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-
-      nav {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-      }
-
-      .eu-link {
-        border: 1px solid var(--link);
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        color: var(--link);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        cursor: pointer;
-      }
-
-      .eu-link:hover {
-        background-color: var(--link);
-        color: var(--bg);
-        box-shadow: 0 0 6px var(--link);
-      }
-
-      .theme-toggle {
-        background-color: var(--link);
-        color: var(--bg);
-        border: none;
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-
-      .theme-toggle:hover {
-        background-color: var(--highlight);
-        color: var(--bg);
       }
 
       .ascii-static pre {
@@ -99,37 +52,20 @@
         overflow-x: auto;
         margin-bottom: 2rem;
         text-align: left;
-        color: var(--text);
+        color: var(--text-color);
       }
 
       .main-link a {
         position: relative;
         text-decoration: underline;
-        color: var(--link);
+        color: var(--accent-color);
         font-size: 1.2rem;
         transition: color 0.3s ease;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
 
-      .main-link a::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        left: 0;
-        bottom: -4px;
-        background-color: var(--highlight);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-      }
-
       .main-link a:hover {
-        color: var(--text);
-      }
-
-      .main-link a:hover::after {
-        transform: scaleX(1);
+        color: var(--text-color);
       }
 
       footer {
@@ -138,7 +74,7 @@
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.9rem;
-        color: var(--text);
+        color: var(--text-color);
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
 
@@ -147,13 +83,70 @@
         max-width: 1200px;
         margin-top: 1rem;
         line-height: 1.5;
-        color: var(--subtext);
+        color: #ccc;
         text-align: left;
         margin-left: 0;
         margin-right: auto;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
+
+      .bio {
+  font-size: 1rem;
+  color: var(--text-color); /* 👈 this makes it white in dark mode, black in light mode */
+  margin: 1.5rem 0 0.5rem 0;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  text-align: left;
+  max-width: 800px;
+} 
+
+      .eu-link {
+        border: 1px solid var(--accent-color);
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .eu-link:hover {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+        box-shadow: 0 0 6px var(--accent-color);
+      }
+
+      nav {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .toggle-btn {
+        border: 1px solid var(--accent-color);
+        background: transparent;
+        color: var(--accent-color);
+        border-radius: 999px;
+        font-size: 0.9rem;
+        padding: 4px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .toggle-btn:hover {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+      }
     </style>
+
+    <script>
+      function toggleTheme() {
+        document.body.classList.toggle("light");
+      }
+    </script>
   </head>
 
   <body>
@@ -165,7 +158,7 @@
       >
         European Tech Alts
       </a>
-      <button class="theme-toggle" onclick="toggleTheme()">☀︎ / ☾</button>
+      <button class="toggle-btn" onclick="toggleTheme()">☀︎ / ☾</button>
     </nav>
 
     <div class="ascii-static">
@@ -179,6 +172,10 @@
       </pre>
     </div>
 
+    <p class="bio">
+      fragments of thought on entropy, decentralization, and the networked self.
+    </p>
+
     <p class="main-link">
       <a href="/essays/testing....pdf" target="_blank">
         The Beginning of Something Beautiful.
@@ -186,11 +183,5 @@
     </p>
 
     <footer>© 2025 indexless</footer>
-
-    <script>
-      function toggleTheme() {
-        document.body.classList.toggle("light-theme");
-      }
-    </script>
   </body>
 </html>
