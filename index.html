@@ -131,12 +131,43 @@
         margin-right: auto;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
-    </style>
+    <style>
+  .eu-link {
+    border: 1px solid #00cc66;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #00cc66;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer; /* 👈 makes it feel like a clickable button */
+  }
+
+  .eu-link:hover {
+    background-color: #00cc66;
+    color: #000;
+    box-shadow: 0 0 6px #00cc66; /* 👈 glow effect on hover */
+  }
+
+  nav {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+</style>
   </head>
   <body>
-    <nav>
-    <a href="https://proton.me/blog/european-tech-alternatives" target="_blank">eu alt tech</a>
+  <nav>
+    <a
+      href="https://proton.me/blog/european-tech-alternatives"
+      class="eu-link"
+      target="_blank"
+    >
+      European Tech Alts
+    </a>
   </nav>
+</body>
     <div class="ascii-static">
       <pre class="ascii">
 ██╗███╗   ██╗██████╗ ███████╗██╗  ██╗██╗     ███████╗███████╗███████╗
