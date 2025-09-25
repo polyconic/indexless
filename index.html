@@ -46,6 +46,15 @@
         position: relative;
       }
 
+      nav,
+      .ascii-static,
+      .main-link,
+      .bio,
+      footer {
+        position: relative;
+        z-index: 1;
+      }
+
       .ascii-static pre {
         font-size: 12px;
         white-space: pre;
@@ -75,18 +84,6 @@
         transform: translateX(-50%);
         font-size: 0.9rem;
         color: var(--text-color);
-        font-family: 'Helvetica Neue', Helvetica, sans-serif;
-      }
-
-      .subtext {
-        font-size: 1.5rem;
-        max-width: 1200px;
-        margin-top: 1rem;
-        line-height: 1.5;
-        color: #ccc;
-        text-align: left;
-        margin-left: 0;
-        margin-right: auto;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
 
@@ -130,25 +127,15 @@
         gap: 0.5rem;
       }
 
-      .down-arrow {
+      .lines-bg {
         position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 1.5rem;
-        color: var(--accent-color);
-        animation: bounce 2s infinite;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-      @keyframes bounce {
-        0%, 100% {
-          transform: translateX(-50%) translateY(0);
-        }
-        50% {
-          transform: translateX(-50%) translateY(6px);
-        }
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 0;
+        opacity: 0.1;
+        pointer-events: none;
+        user-select: none;
       }
     </style>
 
@@ -160,6 +147,9 @@
   </head>
 
   <body>
+    <!-- Decorative background image -->
+    <img src="/lines.png" alt="Decorative lines" class="lines-bg" />
+
     <nav>
       <a
         href="https://proton.me/blog/european-tech-alternatives"
