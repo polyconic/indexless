@@ -19,7 +19,6 @@
         --bg-color: #0a0a0a;
         --text-color: #fff;
         --accent-color: #00cc66;
-        --secondary-color: #00aaff;
         --bio-color: #888;
       }
 
@@ -27,7 +26,6 @@
         --bg-color: #ffffff;
         --text-color: #000;
         --accent-color: #007744;
-        --secondary-color: #0077cc;
         --bio-color: #444;
       }
 
@@ -38,73 +36,16 @@
         color: var(--text-color);
         margin: 0;
         padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
         min-height: 100vh;
         position: relative;
       }
 
-      .ascii-static pre {
-        font-size: 12px;
-        white-space: pre;
-        overflow-x: auto;
-        margin-bottom: 2rem;
-        text-align: left;
-        color: var(--text-color);
-      }
-
-      .bio {
-        font-size: 1rem;
-        color: var(--text-color);
-        margin: 1.5rem 0 1.5rem 0;
-        font-family: 'Helvetica Neue', Helvetica, sans-serif;
-        text-align: left;
-        max-width: 800px;
-      }
-
-      .library {
+      nav {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
         display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        width: 100%;
-        margin-top: 1rem;
-      }
-
-      .section {
-        flex: 1;
-        min-width: 250px;
-      }
-
-      .section h2 {
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        color: var(--text-color);
-        margin-bottom: 0.5rem;
-        font-family: 'Helvetica Neue', Helvetica, sans-serif;
-      }
-
-      .section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .section li {
-        margin-bottom: 0.5rem;
-      }
-
-      .section a {
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        color: var(--accent-color);
-        font-family: 'Helvetica Neue', Helvetica, sans-serif;
-        font-size: 1rem;
-      }
-
-      .section a:hover {
-        color: var(--text-color);
+        gap: 0.5rem;
       }
 
       .toggle-btn,
@@ -128,22 +69,95 @@
         box-shadow: 0 0 6px var(--accent-color);
       }
 
-      nav {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
+      .ascii-static pre {
+        font-size: 12px;
+        white-space: pre;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+        text-align: left;
+        color: var(--text-color);
+      }
+
+      .bio {
+        font-size: 1rem;
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        max-width: 800px;
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      }
+
+      .content-wrapper {
         display: flex;
-        gap: 0.5rem;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 1rem;
+      }
+
+      .section {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .section h3 {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        color: white;
+        font-weight: bold;
+      }
+
+      .section a {
+        display: block;
+        margin-bottom: 1rem;
+        text-decoration: underline;
+        color: var(--accent-color);
+        transition: color 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .section a:hover {
+        color: var(--text-color);
+      }
+
+      .divider {
+        width: 1px;
+        background-color: white;
+        height: auto;
+        opacity: 0.2;
       }
 
       footer {
         position: absolute;
-        bottom: 6rem;
+        bottom: 4rem;
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.9rem;
         color: var(--text-color);
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      }
+
+      .lines-img {
+        position: absolute;
+        top: 2rem;
+        left: 0;
+        height: 90%;
+        z-index: -1;
+        opacity: 0.08;
+      }
+
+      @media (max-width: 768px) {
+        .content-wrapper {
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .divider {
+          display: none;
+        }
       }
     </style>
 
@@ -160,6 +174,8 @@
       <a href="mailto:hello@indexless.net" class="email-btn" title="Send an Email">✉︎</a>
     </nav>
 
+    <img class="lines-img" src="/lines.png" alt="lines background" />
+
     <div class="ascii-static">
       <pre class="ascii">
 ██╗███╗   ██╗██████╗ ███████╗██╗  ██╗██╗     ███████╗███████╗███████╗
@@ -175,32 +191,33 @@
       the indexless library  /  entropy, autonomy, and open protocols.
     </p>
 
-    <div class="library">
-      <div class="section my-work">
-        <h2>indexless work</h2>
-        <ul>
-          <li>
-            <a href="/essays/provenance01.pdf" target="_blank">
-              Hypotheticals / Visual Culture in 2049: Media & Authenticity
-            </a>
-          </li>
-        </ul>
+    <div class="content-wrapper">
+      <div class="section">
+        <h3>Indexless Work</h3>
+        <a href="/essays/provenance01.pdf" target="_blank">
+          Hypotheticals / Visual Culture in 2049: Media & Authenticity
+        </a>
       </div>
 
-      <div class="section references">
-        <h2>external links</h2>
-        <ul>
-          <li>
-            <a href="https://proton.me/blog/european-tech-alternatives" target="_blank">
-              European Tech Alts
-            </a>
-          </li>
-          <li>
-            <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
-              Paul Baran, 1962
-            </a>
-          </li>
-        </ul>
+      <div class="divider"></div>
+
+      <div class="section">
+        <h3>External Links</h3>
+        <a href="https://proton.me/blog/european-tech-alternatives" target="_blank">
+          European Tech Alts
+        </a>
+        <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
+          Paul Baran, 1962
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <h3>Fragments</h3>
+        <a href="#">testing...</a>
+        <a href="#">testing...</a>
+        <a href="#">testing...</a>
       </div>
     </div>
 
