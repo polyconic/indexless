@@ -46,15 +46,6 @@
         position: relative;
       }
 
-      nav,
-      .ascii-static,
-      .main-link,
-      .bio,
-      footer {
-        position: relative;
-        z-index: 1;
-      }
-
       .ascii-static pre {
         font-size: 12px;
         white-space: pre;
@@ -84,6 +75,18 @@
         transform: translateX(-50%);
         font-size: 0.9rem;
         color: var(--text-color);
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      }
+
+      .subtext {
+        font-size: 1.5rem;
+        max-width: 1200px;
+        margin-top: 1rem;
+        line-height: 1.5;
+        color: #ccc;
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
 
@@ -126,6 +129,15 @@
         display: flex;
         gap: 0.5rem;
       }
+
+      .lines-img {
+        position: absolute;
+        top: 2rem;
+        left: 0;
+        height: 90%;
+        z-index: -1;
+        opacity: 0.08;
+      }
     </style>
 
     <script>
@@ -136,6 +148,7 @@
   </head>
 
   <body>
+    <img src="/lines.png" alt="lines" class="lines-img" />
 
     <nav>
       <a
@@ -144,6 +157,13 @@
         target="_blank"
       >
         European Tech Alts
+      </a>
+      <a
+        href="https://www.rand.org/pubs/papers/P2626.html"
+        class="eu-link"
+        target="_blank"
+      >
+        Paul Baran, 1962
       </a>
       <button class="toggle-btn" onclick="toggleTheme()">☀︎ / ☾</button>
       <a href="mailto:hello@indexless.net" class="email-btn" title="Send an Email">✉︎</a>
