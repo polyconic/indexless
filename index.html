@@ -91,17 +91,17 @@
       }
 
       .content {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1.2rem; /* tighter spacing */
-  flex-wrap: nowrap;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.8rem; /* tighter spacing */
+        flex-wrap: nowrap;
       }
 
       .section {
-  flex: 1;
-  min-width: 160px;
-  max-width: 240px;
+        flex: 1;
+        min-width: 160px;
+        max-width: 240px;
       }
 
       .section h3 {
@@ -111,6 +111,12 @@
         margin-bottom: 1rem;
         color: var(--header-color);
         font-weight: bold;
+        text-decoration: none;
+      }
+
+      .section h3 a {
+        text-decoration: none;
+        color: inherit;
       }
 
       .section a {
@@ -127,12 +133,12 @@
       }
 
       .divider {
-  width: 1px;
-  background-color: var(--text-color);
-  opacity: 0.15;
-  height: 100%;
-  margin: 0 1rem; /* tighter divider margin */
-}
+        width: 1px;
+        background-color: var(--text-color);
+        opacity: 0.15;
+        height: 100%;
+        margin: 0 0.8rem;
+      }
 
       footer {
         position: absolute;
@@ -176,7 +182,8 @@
     <div class="content">
       <div class="section">
         <h3>Indexless Work</h3>
-        <a 
+        <a href="/essays/provenance01.pdf" target="_blank">
+          Hypotheticals / Visual Culture in 2049
         </a>
       </div>
 
