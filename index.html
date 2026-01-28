@@ -112,7 +112,7 @@
       .section a {
         display: inline-block;
         width: 100%;
-        text-decoration: underline;
+        text-decoration: none;
         color: var(--accent-color);
         margin-bottom: 0.75rem;
         transition: color 0.3s ease;
@@ -121,13 +121,18 @@
 
       .section a:hover {
         color: var(--text-color);
-      }
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+        
+      
 
       footer {
         position: absolute;
         bottom: 2rem;
-        left: 50%;  /* ADD THIS LINE */
-        transform: translateX(-50%);  /* ADD THIS LINE */
+        left: 50%;  
+        transform: translateX(-50%);  
         font-size: 0.9rem;
         color: var(--text-color);
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
@@ -167,40 +172,40 @@
       <div class="section">
         <h3>Selected Works</h3>
         <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
-          On Distributed Communications Networks, 1962
+          On Distributed Communications Networks (1962)
         </a>
         <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">
-          Bitcoin: A Peer-to-Peer Electronic Cash System, 2008
+          Bitcoin: A Peer-to-Peer Electronic Cash System (2008)
         </a>
         <a href="https://vault.fbi.gov/nikola-tesla/Nikola%20Tesla%20Part%2003%20%28Final%29" target="_blank">
-          FBI Tesla Files: Death Investigation & Public Interest, 1957
+          FBI Tesla Files: Death Investigation & Public Interest (1957)
         </a>
         <a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/37364.pdf" target="_blank">
-          Geometric Overpass Extraction from Vector Road Data and DSMs, 2011
+          Geometric Overpass Extraction from Vector Road Data and DSMs (2011)  
         </a>
         <a href="https://ntrs.nasa.gov/api/citations/19750013705/downloads/19750013705.pdf" target="_blank">
-          The ERTS-1 Investigation (ER-600), 1974
+          The ERTS-1 Investigation (ER-600) (1974)
         </a>
         <a href="http://www.wirechief.com/sirens/index.htm" target="_blank">
-          Los Angeles Air Raid Sirens Archive by Dennis H, 2006
+          Los Angeles Air Raid Sirens Archive by Dennis H (2006) 
         </a>
         <a href="https://acrobat.adobe.com/link/track?uri=urn%3Aaaid%3Ascds%3AUS%3A2c6361d5-b8da-4aca-89bd-1ed66cd22d19" target="_blank">
-          Coalition for Content Provenance and Authenticity (C2PA), 2020
+          Coalition for Content Provenance and Authenticity (C2PA) (2020)
         </a>
         <a href="https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank">
-          Google: Attention Is All You Need, 2017
+          Google: Attention Is All You Need (2017) 
         </a>
         <a href="https://arxiv.org/pdf/2312.00752" target="_blank">
-          Gemini: A Family of Highly Capable Multimodal Models, 2023
+          Gemini: A Family of Highly Capable Multimodal Models (2023)
         </a>
         <a href="https://unison-code.github.io/doc/manual.pdf" target="_blank">
           Unison: Combinatorial Register Allocation and Instruction Scheduling
         </a>
         <a href="https://github.com/BLAKE3-team/BLAKE3-specs/blob/master/blake3.pdf" target="_blank">
-          BLAKE3 Cryptographic Hash Function Specification, 2020
+          BLAKE3 Cryptographic Hash Function Specification (2020)
         </a>
         <a href="/essays/provenance01.pdf" target="_blank">
-          Visual Culture in 2049
+          Visual Culture in 2049 (2024)
         </a>
       </div>
     </div>
