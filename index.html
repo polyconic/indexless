@@ -91,12 +91,20 @@
       }
 
       .content {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 0.8rem; /* tighter spacing */
-        flex-wrap: nowrap;
-      }
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.8rem;
+  flex-wrap: nowrap;
+  max-width: 1200px; /* add this */
+  margin: 0 auto; /* add this */
+}
+
+.section {
+  flex: 1;
+  min-width: 160px;
+  max-width: 400px;
+}
 
       .section {
         flex: 1;
