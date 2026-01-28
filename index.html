@@ -91,25 +91,19 @@
       }
 
       .content {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.8rem;
-  flex-wrap: nowrap;
-  max-width: 1200px; /* add this */
-  margin: 0 auto; /* add this */
-}
-
-.section {
-  flex: 1;
-  min-width: 160px;
-  max-width: 400px;
-}
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.8rem;
+        flex-wrap: nowrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
       .section {
         flex: 1;
         min-width: 200px;
-        max-width: none;
+        max-width: 500px;
       }
 
       .section h3 {
@@ -169,7 +163,7 @@
   <body>
     <nav>
       <button class="toggle-btn" onclick="toggleTheme()">☀︎ / ☾</button>
-            <a href="mailto:hello@indexless.net" class="email-btn" title="Send an Email">✉︎</a>
+      <a href="mailto:hello@indexless.net" class="email-btn" title="Send an Email">✉︎</a>
     </nav>
 
     <div class="ascii-static">
@@ -189,16 +183,10 @@
 
     <div class="content">
       <div class="section">
-        <h3>Indexless Work</h3>
+        <h3>Selected Works</h3>
         <a href="/essays/provenance01.pdf" target="_blank">
           Visual Culture in 2049
         </a>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section">
-        <h3>Selected Works</h3>
         <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
           On Distributed Communications Networks, 1962
         </a>
@@ -209,7 +197,8 @@
           The ERTS-1 Investigation&nbsp;(ER-600)
         </a>
       </div>
-
     </div>
 
-    <footer>© 2026 indexless
+    <footer>© 2026 indexless</footer>
+  </body>
+</html>
