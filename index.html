@@ -92,19 +92,11 @@
       }
 
       .content {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 0.8rem;
-        flex-wrap: nowrap;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 800px;
       }
 
       .section {
-        flex: 1;
-        min-width: 200px;
-        max-width: 500px;
+        margin-bottom: 2rem;
       }
 
       .section h3 {
@@ -115,11 +107,6 @@
         color: var(--header-color);
         font-weight: bold;
         text-decoration: none;
-      }
-
-      .section h3 a {
-        text-decoration: none;
-        color: inherit;
       }
 
       .section a {
@@ -135,32 +122,11 @@
         color: var(--text-color);
       }
 
-      .divider {
-        width: 1px;
-        background-color: var(--text-color);
-        opacity: 0.15;
-        height: 100%;
-        margin: 0 0.8rem;
-      }
-
-      .about-text {
-        position: absolute;
-        bottom: 4rem;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.85rem;
-        color: var(--text-color);
-        font-family: 'Helvetica Neue', Helvetica, sans-serif;
-        text-align: center;
-        max-width: 800px;
-        line-height: 1.5;
-      }
-
       footer {
         position: absolute;
         bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 50%;  /* ADD THIS LINE */
+        transform: translateX(-50%);  /* ADD THIS LINE */
         font-size: 0.9rem;
         color: var(--text-color);
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
@@ -199,7 +165,7 @@
     <div class="content">
       <div class="section">
         <h3>Selected Works</h3>
-   <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
+        <a href="https://www.rand.org/pubs/papers/P2626.html" target="_blank">
           On Distributed Communications Networks, 1962
         </a>
         <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">
