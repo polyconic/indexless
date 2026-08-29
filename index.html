@@ -42,6 +42,8 @@
       ]
     }
     </script>
+
+    <!-- Must stay in <head>: moving it later reintroduces the theme flash. -->
     <script>
       (function () {
         var root = document.documentElement;
@@ -123,11 +125,6 @@
 
       /* ---------- nav ---------- */
 
-      /*
-        wordmark and nav share one row so the buttons sit level with the top of
-        the lettering. On phone screens the wordmark needs the full width, so
-        nav wraps to its own row above it instead of overlapping
-      */
       .masthead {
         display: flex;
         align-items: flex-start;
@@ -150,25 +147,29 @@
         justify-content: center;
         min-width: 2.1rem;
         min-height: 1.9rem;
-        border: 1px solid var(--text);
-        background: transparent;
-        color: var(--text);
+        border: 1px solid transparent;
+        background: var(--chip-bg);
+        color: var(--dim);
         border-radius: 999px;
         font: inherit;
         font-size: 0.9rem;
         line-height: 1;
         padding: 4px 10px;
         text-decoration: none;
-        transition: background-color 0.2s ease, color 0.2s ease,
-          box-shadow 0.2s ease;
+        transition: color 0.15s ease, border-color 0.15s ease;
         cursor: pointer;
+      }
+
+      .email-btn svg {
+        display: block;
+        width: 15px;
+        height: 15px;
       }
 
       .toggle-btn:hover,
       .email-btn:hover {
-        background-color: var(--accent);
-        color: var(--bg);
-        box-shadow: 0 0 6px var(--accent);
+        color: var(--text);
+        border-color: var(--rule-solid);
       }
 
       /* ---------- masthead ---------- */
@@ -550,7 +551,18 @@
           class="email-btn"
           title="Send an email"
           aria-label="Send an email"
-          ><span aria-hidden="true">✉︎</span></a
+          ><svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg></a
         >
       </nav>
     </header>
@@ -791,7 +803,6 @@
 
         var FILETYPE = { pdf: 'PDF' };
 
-        /* Some sources are hosted on buckets that say nothing useful. */
         var HOST_ALIAS = {
           'static.googleusercontent.com': 'research.google.com',
           'acrobat.adobe.com': 'c2pa.org',
@@ -824,10 +835,6 @@
           var host = hostOf(a.href);
           var ft = filetypeOf(a.href);
 
-          /*
-            source and topic derived from the markup rather than typed out
-            per entry so adding a document only means adding <li>.
-          */
           if (host) {
             meta.appendChild(el0('span', 'sep'));
             meta.appendChild(el0('span', 'src', host));
@@ -969,8 +976,7 @@
           if (activeTag) p.set('t', activeTag);
           if (sortSel.value !== 'curated') p.set('sort', sortSel.value);
           var s = p.toString();
-          /* replaceState throws on file:// and data: URLs — the page still
-             works there, it just cannot own the address bar. */
+          /* replaceState throws on file:// and data: URLs. */
           try {
             history.replaceState(null, '', s ? '?' + s : location.pathname);
           } catch (e) {}
@@ -1021,10 +1027,6 @@
 
         /* ---------- structured data ---------- */
 
-        /*
-          The ItemList is generated from the DOM so the markup stays the single
-          source of truth. no second copy of the list to keep in sync.
-        */
         var ld = document.createElement('script');
         ld.type = 'application/ld+json';
         ld.textContent = JSON.stringify({
