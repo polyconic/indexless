@@ -42,11 +42,6 @@
       ]
     }
     </script>
-
-    <!--
-      Theme is resolved here, before first paint, so light-mode visitors never
-      see a dark flash. The class lives on <html> for the same reason.
-    -->
     <script>
       (function () {
         var root = document.documentElement;
@@ -178,11 +173,6 @@
 
       /* ---------- masthead ---------- */
 
-      /*
-        69 characters wide in a monospace face (~0.6em per glyph), so the
-        clamp below keeps the wordmark inside the viewport instead of
-        shrinking it to 7px and hoping for the best.
-      */
       .ascii-static {
         flex: 0 1 auto;
         min-width: 0;
@@ -835,8 +825,8 @@
           var ft = filetypeOf(a.href);
 
           /*
-            Source and topic are derived from the markup rather than typed out
-            per entry, so adding a document only means adding an <li>.
+            source and topic derived from the markup rather than typed out
+            per entry so adding a document only means adding <li>.
           */
           if (host) {
             meta.appendChild(el0('span', 'sep'));
@@ -1033,7 +1023,7 @@
 
         /*
           The ItemList is generated from the DOM so the markup stays the single
-          source of truth — no second copy of the list to keep in sync.
+          source of truth. no second copy of the list to keep in sync.
         */
         var ld = document.createElement('script');
         ld.type = 'application/ld+json';
