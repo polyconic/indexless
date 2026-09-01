@@ -7,7 +7,9 @@
     <title>indexless | library of technical documents &amp; research papers</title>
     <link rel="canonical" href="https://indexless.net/" />
     <meta name="description" content="indexless is a curated library of technical documents, research papers and cultural artifacts on data, networks and computing. No tracking, no accounts." />
-    <link rel="icon" href="https://indexless.net/indexlessfavicon.png" type="image/png" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/indexfav.png" sizes="any" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1f1f1e" media="(prefers-color-scheme: dark)" />
@@ -449,8 +451,16 @@
         color: var(--faint);
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
         gap: 0.4rem 1rem;
-        max-width: 820px;
+        width: 100%;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1rem;
       }
 
       footer a {
@@ -755,8 +765,11 @@
     </main>
 
     <footer>
-      <span>© 2026 indexless</span>
-      <span>No tracking, no accounts.</span>
+      <span class="footer-left">
+        <span>© 2026 indexless</span>
+        <span>No tracking, no accounts.</span>
+        <span><a href="/about/">About</a></span>
+      </span>
       <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
     </footer>
 

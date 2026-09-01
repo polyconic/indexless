@@ -2,90 +2,347 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>About – indexless</title>
-    <link rel="icon" href="/indexlessfavicon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>About | indexless</title>
+    <link rel="canonical" href="https://indexless.net/about/" />
+    <meta name="description" content="A digital curation and public node. Thoughts, fragments and longer-form writing on privacy, digital culture, decentralization and entropy." />
+
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/indexfav.png" sizes="any" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1f1f1e" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:title" content="About | indexless" />
+    <meta property="og:description" content="A digital curation and public node." />
+    <meta property="og:image" content="https://indexless.net/opengraph.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="indexless" />
+    <meta property="og:url" content="https://indexless.net/about/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About | indexless" />
+    <meta name="twitter:description" content="A digital curation and public node." />
+    <meta name="twitter:image" content="https://indexless.net/opengraph.png" />
+
+    <!-- Must stay in <head>: moving it later reintroduces the theme flash. -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add("js");
+        var stored = null;
+        try { stored = localStorage.getItem("indexless-theme"); } catch (e) {}
+        var light = stored
+          ? stored === "light"
+          : window.matchMedia("(prefers-color-scheme: light)").matches;
+        if (light) root.classList.add("light");
+      })();
+    </script>
+
     <style>
+      :root {
+        --bg: rgb(31, 31, 30);
+        --text: #ededea;
+        --dim: #8b8b86;
+        --faint: #5a5a56;
+        --rule-solid: #3a3a37;
+        --accent: #00ff00;
+        --header: #fff;
+        --chip-bg: rgba(255, 255, 255, 0.05);
+        color-scheme: dark;
+      }
+
+      :root.light {
+        --bg: #fafaf7;
+        --text: #17171a;
+        --dim: #5f5f5a;
+        --faint: #8f8f89;
+        --rule-solid: #ddddd6;
+        --accent: #00a000;
+        --header: #000;
+        --chip-bg: rgba(0, 0, 0, 0.04);
+        color-scheme: light;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: 'Helvetica Neue', sans-serif;
-        background-color: #000;
-        color: #fff;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
         margin: 0;
-        height: 100vh;
+        padding: 2rem;
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
         flex-direction: column;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      :where(a, button):focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .back {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        padding: 2rem;
-        text-align: center;
+        min-width: 2.1rem;
+        min-height: 1.9rem;
+        color: var(--dim);
+        background: var(--chip-bg);
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 4px 10px;
+        text-decoration: none;
+        transition: color 0.15s ease, border-color 0.15s ease;
+      }
+
+      .back:hover {
+        color: var(--text);
+        border-color: var(--rule-solid);
+      }
+
+      .back svg {
+        display: block;
+        width: 15px;
+        height: 15px;
       }
 
       nav {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        flex: none;
       }
 
-      nav a {
-        margin-right: 1rem;
-        color: #fff;
+      .toggle-btn,
+      .email-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.1rem;
+        min-height: 1.9rem;
+        border: 1px solid transparent;
+        background: var(--chip-bg);
+        color: var(--dim);
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.9rem;
+        line-height: 1;
+        padding: 4px 10px;
         text-decoration: none;
-        font-size: 1rem;
-        position: relative;
-        transition: color 0.3s ease;
+        transition: color 0.15s ease, border-color 0.15s ease;
+        cursor: pointer;
       }
 
-      nav a::after {
-        content: "";
-        position: absolute;
+      .email-btn svg {
+        display: block;
+        width: 15px;
+        height: 15px;
+      }
+
+      .toggle-btn:hover,
+      .email-btn:hover {
+        color: var(--text);
+        border-color: var(--rule-solid);
+      }
+
+      main {
+        flex: 1 0 auto;
+        max-width: 820px;
         width: 100%;
-        height: 2px;
-        left: 0;
-        bottom: -4px;
-        background-color: #00aaff;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-      }
-
-      nav a:hover {
-        color: #00aaff;
-      }
-
-      nav a:hover::after {
-        transform: scaleX(1);
       }
 
       h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0 0 1rem 0;
+        color: var(--header);
+        font-weight: bold;
       }
 
-      p {
-        max-width: 600px;
-        font-size: 1.1rem;
+      main p {
+        font-size: 1rem;
         line-height: 1.6;
+        color: var(--text);
+        margin: 0 0 1.25rem 0;
+        max-width: 62ch;
+      }
+
+      main a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--rule-solid);
+      }
+
+      main a:hover {
+        text-decoration-color: var(--text);
       }
 
       footer {
-        position: absolute;
-        bottom: 1rem;
-        font-size: 0.9rem;
-        color: #fff;
+        flex-shrink: 0;
+        margin-top: 4rem;
+        padding-top: 1.5rem;
+        font-size: 0.8rem;
+        color: var(--faint);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.4rem 1rem;
+        width: 100%;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1rem;
+      }
+
+      footer a {
+        color: var(--faint);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      footer a:hover {
+        color: var(--text);
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 1.25rem;
+        }
+
+        .masthead {
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+
+        nav {
+          order: -1;
+          width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
+
   <body>
-    <nav>
-      <a href="/about/">about</a>
-    </nav>
+    <header class="masthead">
+      <a class="back" href="/" title="Back to the library" aria-label="Back to the library">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="15,18 9,12 15,6" />
+        </svg>
+      </a>
 
-    <h1>About</h1>
-    <p>
-      We make images, sounds, and systems.<br />
-      This space is a public node for thoughts, fragments, and longer-form writing on privacy, digital culture, decentralization, and entropy in the human way.
-    </p>
+      <nav>
+        <button
+          class="toggle-btn"
+          id="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Switch to light theme"
+        >
+          <span aria-hidden="true">☀︎ / ☾</span>
+        </button>
+        <a
+          href="mailto:hello@indexless.net"
+          class="email-btn"
+          title="Send an email"
+          aria-label="Send an email"
+          ><svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg></a
+        >
+      </nav>
+    </header>
 
-    <footer>© 2025</footer>
+    <main>
+      <h1>About</h1>
+      <p>
+        A digital curation and public node. Designed for thoughts, fragments,
+        and longer-form writing on privacy, digital culture, decentralization,
+        and entropy in the human way.
+      </p>
+    </main>
+
+    <footer>
+      <span class="footer-left">
+        <span>© 2026 indexless</span>
+        <span>No tracking, no accounts.</span>
+        <span><a href="/">Library</a></span>
+      </span>
+      <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
+    </footer>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var btn = document.getElementById('theme-toggle');
+
+        function sync() {
+          var light = root.classList.contains('light');
+          btn.setAttribute('aria-pressed', String(light));
+          btn.setAttribute(
+            'aria-label',
+            light ? 'Switch to dark theme' : 'Switch to light theme'
+          );
+        }
+
+        btn.addEventListener('click', function () {
+          var light = root.classList.toggle('light');
+          try {
+            localStorage.setItem('indexless-theme', light ? 'light' : 'dark');
+          } catch (e) {}
+          sync();
+        });
+
+        sync();
+      })();
+    </script>
   </body>
 </html>
