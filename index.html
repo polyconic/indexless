@@ -26,6 +26,10 @@
     <meta name="twitter:description" content="A curated library of technical documents, research papers and cultural artifacts." />
     <meta name="twitter:image" content="https://indexless.net/opengraph.png" />
 
+    <script type="speculationrules">
+    {"prerender": [{"where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/essays/*"}}]}, "eagerness": "moderate"}]}
+    </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -136,6 +140,7 @@
       }
 
       nav {
+        view-transition-name: site-nav;
         display: flex;
         justify-content: flex-end;
         gap: 0.5rem;
@@ -425,6 +430,63 @@
         display: none;
       }
 
+      .toolbtn {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          monospace;
+        font-size: 0.8rem;
+        color: var(--dim);
+        background: transparent;
+        border: 1px solid var(--rule-solid);
+        border-radius: 4px;
+        padding: 0.5rem 0.65rem;
+        cursor: pointer;
+        transition: color 0.15s ease, border-color 0.15s ease;
+      }
+
+      .toolbtn:hover {
+        color: var(--text);
+        border-color: var(--dim);
+      }
+
+      .meta .plink {
+        color: var(--faint);
+        text-decoration: none;
+        margin-left: auto;
+        opacity: 0;
+        transition: opacity 0.15s ease, color 0.15s ease;
+      }
+
+      .entry:hover .plink,
+      .entry.is-current .plink,
+      .plink:focus-visible {
+        opacity: 1;
+      }
+
+      .plink:hover {
+        color: var(--accent);
+      }
+
+      .entry {
+        scroll-margin-top: 1.5rem;
+      }
+
+      .entry:target .title,
+      .entry.is-current .title {
+        background-size: 100% 1px;
+      }
+
+      @view-transition {
+        navigation: auto;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+          animation: none !important;
+        }
+      }
+
       mark {
         background: transparent;
         color: var(--accent);
@@ -444,6 +506,7 @@
       /* ---------- footer ---------- */
 
       footer {
+        view-transition-name: site-footer;
         flex-shrink: 0;
         margin-top: 4rem;
         padding-top: 1.5rem;
@@ -578,8 +641,7 @@
 
     <p class="bio">
       The indexless library of data and networks.<br />
-      Technical documents, research papers, and other cultural artifacts. If a
-      link is broken, please reach out.
+      Technical documents, research papers, and other cultural artifacts.
     </p>
 
     <main class="content">
@@ -605,6 +667,7 @@
             <option value="oldest">oldest first</option>
             <option value="title">a–z</option>
           </select>
+          <button type="button" id="random" class="toolbtn" title="Jump to a random document">random</button>
         </div>
 
         <div class="tagbar" id="tagbar" role="group" aria-label="Filter by topic"></div>
@@ -612,145 +675,145 @@
         <p class="count" id="count" role="status" aria-live="polite"></p>
 
         <ul class="entries" id="entries" aria-labelledby="works-heading">
-          <li class="entry" data-year="1962" data-tags="networks systems">
+          <li class="entry" id="baran-1962" data-year="1962" data-tags="networks systems">
             <a class="title" href="https://www.rand.org/pubs/papers/P2626.html" target="_blank" rel="noopener noreferrer">On Distributed Communications Networks</a>
             <p class="meta"><span class="author">Paul Baran</span><span class="sep"></span><span class="year">1962</span></p>
             <p class="note">RAND's case for distributed mesh routing and "message blocks" — the survivability argument packet switching was built on.</p>
           </li>
 
-          <li class="entry" data-year="2008" data-tags="crypto networks">
+          <li class="entry" id="bitcoin-2008" data-year="2008" data-tags="crypto networks">
             <a class="title" href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener noreferrer">Bitcoin: A Peer-to-Peer Electronic Cash System</a>
             <p class="meta"><span class="author">Satoshi Nakamoto</span><span class="sep"></span><span class="year">2008</span></p>
             <p class="note">Nine pages on using a proof-of-work chain to order transactions without a trusted third party.</p>
           </li>
 
-          <li class="entry" data-year="1957" data-tags="archive gov">
+          <li class="entry" id="tesla-fbi-1957" data-year="1957" data-tags="archive gov">
             <a class="title" href="https://vault.fbi.gov/nikola-tesla/Nikola%20Tesla%20Part%2003%20%28Final%29" target="_blank" rel="noopener noreferrer">Nikola Tesla Files, Part 3</a>
             <p class="meta"><span class="author">Federal Bureau of Investigation</span><span class="sep"></span><span class="year">1957</span></p>
             <p class="note">The Bureau's file on the custody and review of Tesla's papers following his death in 1943.</p>
           </li>
 
-          <li class="entry" data-year="1998" data-tags="archive">
+          <li class="entry" id="textfiles-1998" data-year="1998" data-tags="archive">
             <a class="title" href="http://textfiles.com/directory.html" target="_blank" rel="noopener noreferrer">The TEXTFILES.COM Archive</a>
             <p class="meta"><span class="author">Various BBS authors, compiled by Jason Scott</span><span class="sep"></span><span class="year">1998</span></p>
             <p class="note">The written record of the BBS era — phreaking, zines, ANSI art, and the folklore of dial-up culture.</p>
           </li>
 
-          <li class="entry" data-year="2011" data-tags="geo">
+          <li class="entry" id="overpass-2011" data-year="2011" data-tags="geo">
             <a class="title" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/37364.pdf" target="_blank" rel="noopener noreferrer">Geometric Overpass Extraction from Vector Road Data and DSMs</a>
             <p class="meta"><span class="author">Joshua Schpok</span><span class="sep"></span><span class="year">2011</span></p>
             <p class="note">Working out which roads pass over which, from flat vector road data plus a digital surface model.</p>
           </li>
 
-          <li class="entry" data-year="2025" data-tags="ml systems">
+          <li class="entry" id="omnisec-2025" data-year="2025" data-tags="ml systems">
             <a class="title" href="https://arxiv.org/pdf/2503.03108" target="_blank" rel="noopener noreferrer">OMNISEC: LLM-Driven Provenance-based Intrusion Detection</a>
             <p class="meta"><span class="author">Wenrui Cheng et al.</span><span class="sep"></span><span class="year">2025</span></p>
             <p class="note">Pointing a language model at system provenance graphs to flag intrusions without hand-written detection rules.</p>
           </li>
 
-          <li class="entry" data-year="1974" data-tags="geo gov">
+          <li class="entry" id="erts-1-1974" data-year="1974" data-tags="geo gov">
             <a class="title" href="https://ntrs.nasa.gov/api/citations/19750013705/downloads/19750013705.pdf" target="_blank" rel="noopener noreferrer">The ERTS-1 Investigation (ER-600)</a>
             <p class="meta"><span class="author">R. Bryan Erb</span><span class="sep"></span><span class="year">1974</span></p>
             <p class="note">NASA on the first Earth Resources Technology Satellite — the mission later renamed Landsat 1.</p>
           </li>
 
-          <li class="entry" data-year="2003" data-tags="archive gov">
+          <li class="entry" id="edible-plants-2003" data-year="2003" data-tags="archive gov">
             <a class="title" href="https://archive.org/details/the-official-u.-s.-army-illustrated-guide-to-edible-wild-plants/mode/2up" target="_blank" rel="noopener noreferrer">The Official U.S. Army Illustrated Guide to Edible Wild Plants</a>
             <p class="meta"><span class="author">U.S. Army</span><span class="sep"></span><span class="year">2003</span></p>
             <p class="note">Field identification of edible wild plants, illustrated, from the Army's survival curriculum.</p>
           </li>
 
-          <li class="entry" data-year="2006" data-tags="archive">
+          <li class="entry" id="la-sirens-2006" data-year="2006" data-tags="archive">
             <a class="title" href="http://www.wirechief.com/sirens/index.htm" target="_blank" rel="noopener noreferrer">Los Angeles Air Raid Sirens Archive</a>
             <p class="meta"><span class="author">Dennis H</span><span class="sep"></span><span class="year">2006</span></p>
             <p class="note">A hobbyist's survey of the city's Cold War civil-defense siren network: models, sites, and recordings.</p>
           </li>
 
-          <li class="entry" data-year="2020" data-tags="crypto web">
+          <li class="entry" id="c2pa-2020" data-year="2020" data-tags="crypto web">
             <a class="title" href="https://acrobat.adobe.com/link/track?uri=urn%3Aaaid%3Ascds%3AUS%3A2c6361d5-b8da-4aca-89bd-1ed66cd22d19" target="_blank" rel="noopener noreferrer">Coalition for Content Provenance and Authenticity (C2PA)</a>
             <p class="meta"><span class="author">Leonard Rosenthol et al.</span><span class="sep"></span><span class="year">2020</span></p>
             <p class="note">The spec for cryptographically signed provenance metadata bound to images, audio, and video.</p>
           </li>
 
-          <li class="entry" data-year="2017" data-tags="ml">
+          <li class="entry" id="attention-2017" data-year="2017" data-tags="ml">
             <a class="title" href="https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank" rel="noopener noreferrer">Attention Is All You Need</a>
             <p class="meta"><span class="author">Ashish Vaswani et al.</span><span class="sep"></span><span class="year">2017</span></p>
             <p class="note">The Transformer: attention alone, no recurrence, no convolution. Most of the current field descends from this.</p>
           </li>
 
-          <li class="entry" data-year="1981" data-tags="languages">
+          <li class="entry" id="first-language-1981" data-year="1981" data-tags="languages">
             <a class="title" href="https://fermatslibrary.com/s/the-consequences-of-ones-first-programming-language" target="_blank" rel="noopener noreferrer">The Consequences of One's First Programming Language</a>
             <p class="meta"><span class="author">Richard L. Wexelblat</span><span class="sep"></span><span class="year">1981</span></p>
             <p class="note">An early look at how the first language you learn shapes the way you write every language after it.</p>
           </li>
 
-          <li class="entry" data-year="2023" data-tags="ml">
+          <li class="entry" id="mamba-2023" data-year="2023" data-tags="ml">
             <a class="title" href="https://arxiv.org/pdf/2312.00752" target="_blank" rel="noopener noreferrer">Mamba: Linear-Time Sequence Modeling with Selective State Spaces</a>
             <p class="meta"><span class="author">Albert Gu and Tri Dao</span><span class="sep"></span><span class="year">2023</span></p>
             <p class="note">Selective state space models — a linear-time architecture that stays competitive with attention at long context.</p>
           </li>
 
-          <li class="entry" data-year="2025" data-tags="networks crypto">
+          <li class="entry" id="bitchat-2025" data-year="2025" data-tags="networks crypto">
             <a class="title" href="https://github.com/permissionlesstech/bitchat/blob/main/WHITEPAPER.md" target="_blank" rel="noopener noreferrer">BitChat Protocol Whitepaper</a>
             <p class="meta"><span class="author">Permissionlesstech</span><span class="sep"></span><span class="year">2025</span></p>
             <p class="note">A Bluetooth mesh messaging protocol: no servers, no accounts, no phone numbers.</p>
           </li>
 
-          <li class="entry" data-year="2021" data-tags="math">
+          <li class="entry" id="ruliad-2021" data-year="2021" data-tags="math">
             <a class="title" href="https://writings.stephenwolfram.com/2021/11/the-concept-of-the-ruliad/" target="_blank" rel="noopener noreferrer">The Concept of the Ruliad</a>
             <p class="meta"><span class="author">Stephen Wolfram</span><span class="sep"></span><span class="year">2021</span></p>
             <p class="note">Wolfram's proposed limit object: the entangled result of running every possible computational rule.</p>
           </li>
 
-          <li class="entry" data-year="1977" data-tags="archive gov">
+          <li class="entry" id="blue-book-1977" data-year="1977" data-tags="archive gov">
             <a class="title" href="https://vault.fbi.gov/Project%20Blue%20Book%20(UFO)%20/Project%20Blue%20Book%20(UFO)%20Part%2001%20(Final)/view" target="_blank" rel="noopener noreferrer">Project Blue Book (UFO) Files, Part 1</a>
             <p class="meta"><span class="author">Federal Bureau of Investigation</span><span class="sep"></span><span class="year">1977</span></p>
             <p class="note">The Bureau's file on the Air Force's long-running UFO investigation.</p>
           </li>
 
-          <li class="entry" data-year="" data-tags="languages">
+          <li class="entry" id="unison" data-year="" data-tags="languages">
             <a class="title" href="https://unison-code.github.io/doc/manual.pdf" target="_blank" rel="noopener noreferrer">Unison: Combinatorial Register Allocation and Instruction Scheduling</a>
             <p class="meta"><span class="author">Roberto Castañeda Lozano</span></p>
             <p class="note">Treating register allocation and instruction scheduling as one combinatorial optimization problem instead of two heuristic passes.</p>
           </li>
 
-          <li class="entry" data-year="1980" data-tags="languages math">
+          <li class="entry" id="nelson-1980" data-year="1980" data-tags="languages math">
             <a class="title" href="https://people.eecs.berkeley.edu/~necula/Papers/nelson-thesis.pdf" target="_blank" rel="noopener noreferrer">Techniques for Program Verification</a>
             <p class="meta"><span class="author">Greg Nelson</span><span class="sep"></span><span class="year">1980</span></p>
             <p class="note">The thesis behind Simplify — congruence closure and the combination of decision procedures that SMT solvers still lean on.</p>
           </li>
 
-          <li class="entry" data-year="1984" data-tags="networks systems">
+          <li class="entry" id="end-to-end-1984" data-year="1984" data-tags="networks systems">
             <a class="title" href="https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf" target="_blank" rel="noopener noreferrer">End-to-End Arguments in System Design</a>
             <p class="meta"><span class="author">J. H. Saltzer, D. P. Reed and D. D. Clark</span><span class="sep"></span><span class="year">1984</span></p>
             <p class="note">Why a function usually belongs at the endpoints of a system rather than in the network beneath it.</p>
           </li>
 
-          <li class="entry" data-year="2021" data-tags="languages">
+          <li class="entry" id="egraphs-2021" data-year="2021" data-tags="languages">
             <a class="title" href="https://egraphs.org/" target="_blank" rel="noopener noreferrer">E-graphs Research Community</a>
             <p class="meta"><span class="author">egraphs-good</span><span class="sep"></span><span class="year">2021</span></p>
             <p class="note">The hub for equality saturation — rewriting programs by keeping every equivalent version around at once.</p>
           </li>
 
-          <li class="entry" data-year="2012" data-tags="math">
+          <li class="entry" id="spectral-graph-2012" data-year="2012" data-tags="math">
             <a class="title" href="https://math.uchicago.edu/~may/REU2012/REUPapers/JiangJ.pdf" target="_blank" rel="noopener noreferrer">An Introduction to Spectral Graph Theory</a>
             <p class="meta"><span class="author">Jiaqi Jiang</span><span class="sep"></span><span class="year">2012</span></p>
             <p class="note">Reading a graph's structure off the eigenvalues of its adjacency and Laplacian matrices.</p>
           </li>
 
-          <li class="entry" data-year="2020" data-tags="crypto">
+          <li class="entry" id="blake3-2020" data-year="2020" data-tags="crypto">
             <a class="title" href="https://github.com/BLAKE3-team/BLAKE3-specs?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">BLAKE3 Cryptographic Hash Function Specification</a>
             <p class="meta"><span class="author">Jack O'Connor et al.</span><span class="sep"></span><span class="year">2020</span></p>
             <p class="note">A Merkle-tree hash built to be fast and parallel: the spec, the test vectors, and the design rationale.</p>
           </li>
 
-          <li class="entry" data-year="2025" data-tags="ml">
+          <li class="entry" id="nested-learning-2025" data-year="2025" data-tags="ml">
             <a class="title" href="https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/" target="_blank" rel="noopener noreferrer">Nested Learning: A New ML Paradigm for Continual Learning</a>
             <p class="meta"><span class="author">Ali Behrouz &amp; Vahab Mirrokni</span><span class="sep"></span><span class="year">2025</span></p>
             <p class="note">Framing a model as nested optimization problems running at different update rates, aimed at learning without forgetting.</p>
           </li>
 
-          <li class="entry" data-year="2026" data-tags="web">
+          <li class="entry" id="vibe-arcade-2026" data-year="2026" data-tags="web">
             <a class="title" href="https://arcade.pirillo.com/" target="_blank" rel="noopener noreferrer">Vibe Arcade</a>
             <p class="meta"><span class="author">Chris Pirillo</span><span class="sep"></span><span class="year">2026</span></p>
             <p class="note">A shelf of small browser games, built fast and playable in a tab.</p>
@@ -861,6 +924,10 @@
             b.dataset.tag = t;
             meta.appendChild(b);
           });
+          var pl = el0('a', 'plink', '¶');
+          pl.href = '#' + el.id;
+          pl.setAttribute('aria-label', 'Link to this entry');
+          meta.appendChild(pl);
 
           return {
             el: el,
@@ -970,6 +1037,7 @@
             frag.appendChild(item.el);
           });
           list.appendChild(frag);
+          if (current && current.hidden) setCurrent(null);
 
           countEl.textContent =
             shown === index.length
@@ -990,7 +1058,9 @@
           var s = p.toString();
           /* replaceState throws on file:// and data: URLs. */
           try {
-            history.replaceState(null, '', s ? '?' + s : location.pathname);
+            history.replaceState(
+              null, '', (s ? '?' + s : location.pathname) + location.hash
+            );
           } catch (e) {}
         }
 
@@ -1006,6 +1076,49 @@
           var s = p.get('sort');
           if (s && sorters[s]) sortSel.value = s;
         }
+
+        /* ---------- keyboard cursor + random ---------- */
+
+        var current = null;
+
+        function visible() {
+          return Array.prototype.slice.call(
+            list.querySelectorAll('.entry:not([hidden])')
+          );
+        }
+
+        function setCurrent(el, scroll) {
+          if (current) current.classList.remove('is-current');
+          current = el || null;
+          if (!current) return;
+          current.classList.add('is-current');
+          if (scroll) {
+            current.scrollIntoView({ block: scroll, behavior: 'smooth' });
+          }
+        }
+
+        function step(dir) {
+          var v = visible();
+          if (!v.length) return;
+          var i = current ? v.indexOf(current) : -1;
+          i = i < 0 ? (dir > 0 ? 0 : v.length - 1) : i + dir;
+          if (i < 0 || i >= v.length) return;
+          setCurrent(v[i], 'nearest');
+        }
+
+        document.getElementById('random').addEventListener('click', function () {
+          var v = visible();
+          if (!v.length) return;
+          var pick;
+          do { pick = v[Math.floor(Math.random() * v.length)]; }
+          while (v.length > 1 && pick === current);
+          setCurrent(pick, 'center');
+        });
+
+        list.addEventListener('click', function (e) {
+          var li = e.target.closest('.entry');
+          if (li && e.target.closest('.plink')) setCurrent(li);
+        });
 
         /* ---------- wiring ---------- */
 
@@ -1023,19 +1136,60 @@
           var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(
             document.activeElement.tagName
           );
-          if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey) {
-            e.preventDefault();
-            search.focus();
-            search.select();
-          } else if (e.key === 'Escape' && typing) {
-            search.value = '';
-            apply();
-            search.blur();
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          if (typing) {
+            if (e.key === 'Escape') {
+              search.value = '';
+              apply();
+              search.blur();
+            }
+            return;
+          }
+          switch (e.key) {
+            case '/':
+              e.preventDefault();
+              search.focus();
+              search.select();
+              break;
+            case 'j':
+            case 'ArrowDown':
+              e.preventDefault();
+              step(1);
+              break;
+            case 'k':
+            case 'ArrowUp':
+              e.preventDefault();
+              step(-1);
+              break;
+            case 'Enter':
+            case 'o':
+              if (current) current.querySelector('.title').click();
+              break;
+            case 'r':
+              document.getElementById('random').click();
+              break;
+            case 'Escape':
+              setCurrent(null);
+              break;
           }
         });
 
         readUrl();
         apply();
+
+        function focusHash() {
+          if (!location.hash) return;
+          var target = document.getElementById(location.hash.slice(1));
+          if (!target || !target.classList.contains('entry')) return;
+          if (target.hidden) {
+            search.value = '';
+            if (activeTag) setTag(activeTag); else apply();
+          }
+          setCurrent(target, 'center');
+        }
+
+        focusHash();
+        window.addEventListener('hashchange', focusHash);
 
         /* ---------- structured data ---------- */
 

@@ -4,9 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>About | indexless</title>
-    <link rel="canonical" href="https://indexless.net/about/" />
-    <meta name="description" content="A digital curation and public node. Thoughts, fragments and longer-form writing on privacy, digital culture, decentralization and entropy." />
+    <title>Not found | indexless</title>
+    <meta name="robots" content="noindex" />
 
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/indexfav.png" sizes="any" type="image/png" />
@@ -14,17 +13,6 @@
 
     <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1f1f1e" media="(prefers-color-scheme: dark)" />
-
-    <meta property="og:title" content="About | indexless" />
-    <meta property="og:description" content="A digital curation and public node." />
-    <meta property="og:image" content="https://indexless.net/opengraph.png" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="indexless" />
-    <meta property="og:url" content="https://indexless.net/about/" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="About | indexless" />
-    <meta name="twitter:description" content="A digital curation and public node." />
-    <meta name="twitter:image" content="https://indexless.net/opengraph.png" />
 
     <script type="speculationrules">
     {"prerender": [{"where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/essays/*"}}]}, "eagerness": "moderate"}]}
@@ -103,40 +91,7 @@
         margin-bottom: 2.5rem;
       }
 
-      .back {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 2.1rem;
-        min-height: 1.9rem;
-        color: var(--dim);
-        background: var(--chip-bg);
-        border: 1px solid transparent;
-        border-radius: 999px;
-        padding: 4px 10px;
-        text-decoration: none;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .back:hover {
-        color: var(--text);
-        border-color: var(--rule-solid);
-      }
-
-      .back svg {
-        display: block;
-        width: 15px;
-        height: 15px;
-      }
-
-      nav {
-        view-transition-name: site-nav;
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
-        flex: none;
-      }
-
+      .back,
       .toggle-btn,
       .email-btn {
         display: inline-flex;
@@ -157,16 +112,26 @@
         cursor: pointer;
       }
 
+      .back svg,
       .email-btn svg {
         display: block;
         width: 15px;
         height: 15px;
       }
 
+      .back:hover,
       .toggle-btn:hover,
       .email-btn:hover {
         color: var(--text);
         border-color: var(--rule-solid);
+      }
+
+      nav {
+        view-transition-name: site-nav;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        flex: none;
       }
 
       main {
@@ -190,6 +155,13 @@
         color: var(--text);
         margin: 0 0 1.25rem 0;
         max-width: 62ch;
+      }
+
+      .code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          monospace;
+        font-size: 0.85rem;
+        color: var(--dim);
       }
 
       main a {
@@ -233,6 +205,10 @@
         color: var(--text);
       }
 
+      @view-transition {
+        navigation: auto;
+      }
+
       @media (max-width: 600px) {
         body {
           padding: 1.25rem;
@@ -247,10 +223,6 @@
           order: -1;
           width: 100%;
         }
-      }
-
-      @view-transition {
-        navigation: auto;
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -317,11 +289,13 @@
     </header>
 
     <main>
-      <h1>About</h1>
+      <h1>Not found</h1>
       <p>
-        A digital curation and public node. Designed for thoughts, fragments,
-        and longer-form writing on privacy, digital culture, decentralization,
-        and entropy in the human way.
+        Nothing is filed at <span class="code" id="path"></span>.
+      </p>
+      <p>
+        <a href="/">Back to the library</a>, or
+        <a href="/?q=" id="search-link">search it</a>.
       </p>
     </main>
 
@@ -329,7 +303,7 @@
       <span class="footer-left">
         <span>© 2026 indexless</span>
         <span>No tracking, no accounts.</span>
-        <span><a href="/">Library</a></span>
+        <span><a href="/about/">About</a></span>
       </span>
       <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
     </footer>
@@ -357,6 +331,18 @@
         });
 
         sync();
+
+        var path = location.pathname;
+        document.getElementById('path').textContent = path;
+
+        var guess = decodeURIComponent(path)
+          .replace(/\.[a-z0-9]+$/i, '')
+          .split('/').filter(Boolean).pop() || '';
+        guess = guess.replace(/[-_+]+/g, ' ').trim();
+        if (guess) {
+          document.getElementById('search-link').href =
+            '/?q=' + encodeURIComponent(guess);
+        }
       })();
     </script>
   </body>
