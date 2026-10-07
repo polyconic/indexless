@@ -40,11 +40,12 @@
       "inLanguage": "en",
       "isAccessibleForFree": true,
       "about": [
-        "Computer Networks",
-        "Cryptography",
-        "Distributed Systems",
-        "Machine Learning",
-        "Information Theory"
+        { "@type": "Thing", "name": "Computer networks" },
+        { "@type": "Thing", "name": "Cryptography" },
+        { "@type": "Thing", "name": "Distributed systems" },
+        { "@type": "Thing", "name": "Machine learning" },
+        { "@type": "Thing", "name": "Programming languages" },
+        { "@type": "Thing", "name": "Mathematics" }
       ]
     }
     </script>
@@ -1205,28 +1206,26 @@
 
         /* ---------- structured data ---------- */
 
-        var ld = document.createElement('script');
-        ld.type = 'application/ld+json';
-        ld.textContent = JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'ItemList',
-          name: 'indexless — Selected Works',
-          numberOfItems: index.length,
-          itemListElement: index.map(function (item, i) {
-            var a = item.el.querySelector('.title');
-            var author = item.el.querySelector('.author');
-            var o = {
-              '@type': 'ListItem',
-              position: i + 1,
-              url: a.href,
-              name: item.title
-            };
-            if (author) o.author = author.textContent.trim();
-            if (item.year) o.datePublished = String(item.year);
-            return o;
-          })
-        });
-        document.head.appendChild(ld);
+        // the list rides on the page's own CollectionPage (mainEntity) instead of a second block
+        var ldEl = document.querySelector('script[type="application/ld+json"]');
+        try {
+          var page = JSON.parse(ldEl.textContent);
+          page.mainEntity = {
+            '@type': 'ItemList',
+            name: 'indexless: selected works',
+            numberOfItems: index.length,
+            itemListElement: index.map(function (item, i) {
+              var a = item.el.querySelector('.title');
+              var author = item.el.querySelector('.author');
+              var doc = { '@type': 'DigitalDocument', name: item.title, url: a.href };
+              if (/\.pdf($|[?#])/i.test(a.href)) doc.encodingFormat = 'application/pdf';
+              if (author) doc.author = author.textContent.trim();
+              if (item.year) doc.datePublished = String(item.year);
+              return { '@type': 'ListItem', position: i + 1, item: doc };
+            })
+          };
+          ldEl.textContent = JSON.stringify(page);
+        } catch (e) {}
       })();
     </script>
   </body>
