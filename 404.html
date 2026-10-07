@@ -301,7 +301,7 @@
 
     <footer>
       <span class="footer-left">
-        <span>© 2026 indexless</span>
+        <span>© <span data-yr>2026</span> indexless</span>
         <span>No tracking, no accounts.</span>
         <span><a href="/about/">About</a></span>
       </span>
@@ -345,5 +345,6 @@
         }
       })();
     </script>
-  </body>
+  <script>document.querySelectorAll("[data-yr]").forEach(function(e){e.textContent=new Date().getFullYear()})</script>
+</body>
 </html>
