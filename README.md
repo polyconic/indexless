@@ -1,6 +1,6 @@
 # indexless
 
-A library of things I find cool. Not much else to it. 
+A library of shit I find cool.
 
 ## Contact
 
