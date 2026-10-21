@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>indexless | library of technical documents &amp; research papers</title>
+    <!-- Old library permalinks (/#baran-1962, /?q=…) moved to /library/. -->
+    <script>
+      if (location.hash.length > 1 || /[?&](q|t|sort)=/.test(location.search)) {
+        location.replace('/library/' + location.search + location.hash);
+      }
+    </script>
+
+    <title>indexless | electronic music label</title>
     <link rel="canonical" href="https://indexless.net/" />
-    <meta name="description" content="indexless is a curated library of technical documents, research papers and cultural artifacts on data, networks and computing. No tracking, no accounts." />
+    <meta name="description" content="indexless is an independent label for electronic music. Techno and its outskirts. No tracking, no accounts." />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/indexfav.png" sizes="any" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -15,7 +22,7 @@
     <meta name="theme-color" content="#1f1f1e" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:title" content="indexless" />
-    <meta property="og:description" content="A curated library of technical documents, research papers and cultural artifacts." />
+    <meta property="og:description" content="An independent label for electronic music." />
     <meta property="og:image" content="https://indexless.net/opengraph.png" />
     <meta property="og:image:alt" content="indexless, rendered in block ASCII lettering" />
     <meta property="og:type" content="website" />
@@ -23,7 +30,7 @@
     <meta property="og:url" content="https://indexless.net/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="indexless" />
-    <meta name="twitter:description" content="A curated library of technical documents, research papers and cultural artifacts." />
+    <meta name="twitter:description" content="An independent label for electronic music." />
     <meta name="twitter:image" content="https://indexless.net/opengraph.png" />
 
     <script type="speculationrules">
@@ -33,20 +40,12 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "CollectionPage",
+      "@type": "Organization",
       "name": "indexless",
       "url": "https://indexless.net/",
-      "description": "A curated library of technical documents, research papers and cultural artifacts on data, networks and computing.",
-      "inLanguage": "en",
-      "isAccessibleForFree": true,
-      "about": [
-        { "@type": "Thing", "name": "Computer networks" },
-        { "@type": "Thing", "name": "Cryptography" },
-        { "@type": "Thing", "name": "Distributed systems" },
-        { "@type": "Thing", "name": "Machine learning" },
-        { "@type": "Thing", "name": "Programming languages" },
-        { "@type": "Thing", "name": "Mathematics" }
-      ]
+      "description": "An independent label for electronic music.",
+      "genre": ["Techno", "Electronic"],
+      "email": "hello@indexless.net"
     }
     </script>
 
@@ -70,7 +69,6 @@
         --text: #ededea;
         --dim: #8b8b86;
         --faint: #5a5a56;
-        --rule: #35353300;
         --rule-solid: #3a3a37;
         --accent: #00ff00;
         --header: #fff;
@@ -124,7 +122,7 @@
         white-space: nowrap;
       }
 
-      :where(a, button, input, select):focus-visible {
+      :where(a, button):focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 3px;
         border-radius: 2px;
@@ -204,7 +202,7 @@
         font-size: 1rem;
         line-height: 1.6;
         color: var(--text);
-        margin: 0 0 2rem 0;
+        margin: 0 0 3rem 0;
         max-width: 62ch;
       }
 
@@ -214,121 +212,9 @@
         flex: 1 0 auto;
       }
 
-      /* ---------- toolbar ---------- */
-
-      html:not(.js) .toolbar,
-      html:not(.js) .count {
-        display: none;
+      .section {
+        margin-bottom: 3rem;
       }
-
-      .toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-
-      .search-wrap {
-        position: relative;
-        flex: 1 1 16rem;
-        min-width: 12rem;
-      }
-
-      #search {
-        width: 100%;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
-        font-size: 0.85rem;
-        color: var(--text);
-        background: transparent;
-        border: 1px solid var(--rule-solid);
-        border-radius: 4px;
-        padding: 0.5rem 2.4rem 0.5rem 0.65rem;
-      }
-
-      #search::placeholder {
-        color: var(--faint);
-      }
-
-      #search:focus {
-        border-color: var(--dim);
-      }
-
-      .slash-hint {
-        position: absolute;
-        right: 0.55rem;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.7rem;
-        color: var(--faint);
-        border: 1px solid var(--rule-solid);
-        border-radius: 3px;
-        padding: 0 0.3rem;
-        pointer-events: none;
-      }
-
-      #search:not(:placeholder-shown) ~ .slash-hint {
-        opacity: 0;
-      }
-
-      @media (pointer: coarse) {
-        .slash-hint {
-          display: none;
-        }
-      }
-
-      #sort {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
-        font-size: 0.8rem;
-        color: var(--dim);
-        background: transparent;
-        border: 1px solid var(--rule-solid);
-        border-radius: 4px;
-        padding: 0.5rem 0.5rem;
-        cursor: pointer;
-      }
-
-      .tagbar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.35rem;
-        margin-bottom: 1.75rem;
-      }
-
-      .tag-btn {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
-        font-size: 0.72rem;
-        letter-spacing: 0.02em;
-        color: var(--dim);
-        background: var(--chip-bg);
-        border: 1px solid transparent;
-        border-radius: 999px;
-        padding: 0.2rem 0.55rem;
-        cursor: pointer;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .tag-btn:hover {
-        color: var(--text);
-        border-color: var(--rule-solid);
-      }
-
-      .tag-btn[aria-pressed='true'] {
-        color: var(--bg);
-        background: var(--accent);
-        border-color: var(--accent);
-      }
-
-      .count {
-        font-size: 0.75rem;
-        color: var(--faint);
-        margin: 0 0 1.25rem 0;
-      }
-
-      /* ---------- entries ---------- */
 
       .section h2 {
         font-size: 0.9rem;
@@ -339,169 +225,81 @@
         font-weight: bold;
       }
 
-      .entries {
+      .section p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--dim);
+        margin: 0;
+        max-width: 62ch;
+      }
+
+      .section p a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--rule-solid);
+      }
+
+      .section p a:hover {
+        text-decoration-color: var(--text);
+      }
+
+      /* ---------- catalog ---------- */
+
+      .catalog {
         list-style: none;
         margin: 0;
         padding: 0;
-      }
-
-      .entry {
-        padding: 0.85rem 0;
         border-top: 1px solid var(--rule-solid);
       }
 
-      .entry:first-child {
-        border-top: none;
-        padding-top: 0;
+      .release {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr auto;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--rule-solid);
       }
 
-      .entry[hidden] {
-        display: none;
+      .release .cat {
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        color: var(--dim);
       }
 
-      .title {
-        display: inline;
-        text-decoration: none;
-        color: var(--text);
+      .release .what {
         font-size: 1rem;
         line-height: 1.45;
-        background-image: linear-gradient(var(--text), var(--text));
-        background-repeat: no-repeat;
-        background-position: 0 100%;
-        background-size: 0% 1px;
-        transition: background-size 0.25s ease;
       }
 
-      .title:hover,
-      .title:focus-visible {
-        background-size: 100% 1px;
+      .release .artist {
+        color: var(--dim);
       }
 
-      .meta {
-        margin: 0.3rem 0 0 0;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
+      .release .when {
         font-size: 0.73rem;
-        line-height: 1.7;
         color: var(--faint);
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0 0.45rem;
       }
 
-      .meta .author {
-        color: var(--dim);
-      }
-
-      .meta .sep::before {
-        content: '·';
-      }
-
-      .meta .ft {
-        border: 1px solid var(--rule-solid);
-        border-radius: 3px;
-        padding: 0 0.28rem;
-        font-size: 0.65rem;
-        letter-spacing: 0.04em;
-      }
-
-      .meta .tag-inline {
-        font: inherit;
+      .release.tba .what {
         color: var(--faint);
-        background: none;
-        border: 0;
-        padding: 0;
-        cursor: pointer;
       }
 
-      .meta .tag-inline:hover {
-        color: var(--accent);
+      .release.tba .when::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 0.45rem;
+        border-radius: 50%;
+        background: var(--accent);
+        vertical-align: 1px;
+        animation: blink 2.4s steps(1, end) infinite;
       }
 
-      .note {
-        margin: 0.35rem 0 0 0;
-        font-size: 0.85rem;
-        line-height: 1.6;
-        color: var(--dim);
-        max-width: 68ch;
-      }
-
-      .note:empty {
-        display: none;
-      }
-
-      .toolbtn {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
-        font-size: 0.8rem;
-        color: var(--dim);
-        background: transparent;
-        border: 1px solid var(--rule-solid);
-        border-radius: 4px;
-        padding: 0.5rem 0.65rem;
-        cursor: pointer;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .toolbtn:hover {
-        color: var(--text);
-        border-color: var(--dim);
-      }
-
-      .meta .plink {
-        color: var(--faint);
-        text-decoration: none;
-        margin-left: auto;
-        opacity: 0;
-        transition: opacity 0.15s ease, color 0.15s ease;
-      }
-
-      .entry:hover .plink,
-      .entry.is-current .plink,
-      .plink:focus-visible {
-        opacity: 1;
-      }
-
-      .plink:hover {
-        color: var(--accent);
-      }
-
-      .entry {
-        scroll-margin-top: 1.5rem;
-      }
-
-      .entry:target .title,
-      .entry.is-current .title {
-        background-size: 100% 1px;
-      }
-
-      @view-transition {
-        navigation: auto;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        ::view-transition-group(*),
-        ::view-transition-old(*),
-        ::view-transition-new(*) {
-          animation: none !important;
-        }
-      }
-
-      mark {
-        background: transparent;
-        color: var(--accent);
-        font-weight: 600;
-      }
-
-      .empty {
-        color: var(--dim);
-        font-size: 0.9rem;
-        padding: 2rem 0;
-      }
-
-      .empty[hidden] {
-        display: none;
+      @keyframes blink {
+        50% { opacity: 0; }
       }
 
       /* ---------- footer ---------- */
@@ -536,6 +334,10 @@
         color: var(--text);
       }
 
+      @view-transition {
+        navigation: auto;
+      }
+
       @media (max-width: 600px) {
         body {
           padding: 1.25rem;
@@ -554,6 +356,15 @@
         .bio {
           font-size: 0.95rem;
         }
+
+        .release {
+          grid-template-columns: 4.5rem 1fr;
+          gap: 0.25rem 0.75rem;
+        }
+
+        .release .when {
+          grid-column: 2;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -561,35 +372,13 @@
         *::before,
         *::after {
           transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
-        }
-      }
-
-      @media print {
-        :root {
-          --bg: #fff;
-          --text: #000;
-          --dim: #333;
-          --faint: #555;
-          --rule-solid: #ccc;
+          animation: none !important;
         }
 
-        nav,
-        .toolbar,
-        .tagbar,
-        .slash-hint {
-          display: none !important;
-        }
-
-        body {
-          padding: 0;
-        }
-
-        .title::after {
-          content: ' <' attr(href) '>';
-          font-size: 0.7rem;
-          color: #555;
-          word-break: break-all;
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+          animation: none !important;
         }
       }
     </style>
@@ -641,208 +430,45 @@
     </header>
 
     <p class="bio">
-      The indexless library of data and networks.<br />
-      Technical documents, research papers, and other cultural artifacts.
+      An independent label for electronic music.<br />
+      Techno and its outskirts.
     </p>
 
     <main class="content">
-      <div class="section">
-        <h2 id="works-heading">Selected Works</h2>
-
-        <div class="toolbar" role="search">
-          <div class="search-wrap">
-            <label class="visually-hidden" for="search">Search the library</label>
-            <input
-              id="search"
-              type="search"
-              placeholder="filter by title, author, year…"
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <span class="slash-hint" aria-hidden="true">/</span>
-          </div>
-          <label class="visually-hidden" for="sort">Sort order</label>
-          <select id="sort">
-            <option value="curated">curated</option>
-            <option value="newest">newest first</option>
-            <option value="oldest">oldest first</option>
-            <option value="title">a–z</option>
-          </select>
-          <button type="button" id="random" class="toolbtn" title="Jump to a random document">random</button>
-        </div>
-
-        <div class="tagbar" id="tagbar" role="group" aria-label="Filter by topic"></div>
-
-        <p class="count" id="count" role="status" aria-live="polite"></p>
-
-        <ul class="entries" id="entries" aria-labelledby="works-heading">
-          <li class="entry" id="baran-1962" data-year="1962" data-tags="networks systems">
-            <a class="title" href="https://www.rand.org/pubs/papers/P2626.html" target="_blank" rel="noopener noreferrer">On Distributed Communications Networks</a>
-            <p class="meta"><span class="author">Paul Baran</span><span class="sep"></span><span class="year">1962</span></p>
-            <p class="note">RAND's case for distributed mesh routing and "message blocks" — the survivability argument packet switching was built on.</p>
+      <section class="section" aria-labelledby="catalog-heading">
+        <h2 id="catalog-heading">Catalog</h2>
+        <ol class="catalog">
+          <li class="release tba">
+            <span class="cat mono">IDX001</span>
+            <span class="what">Forthcoming</span>
+            <span class="when mono">in progress</span>
           </li>
+        </ol>
+      </section>
 
-          <li class="entry" id="bitcoin-2008" data-year="2008" data-tags="crypto networks">
-            <a class="title" href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener noreferrer">Bitcoin: A Peer-to-Peer Electronic Cash System</a>
-            <p class="meta"><span class="author">Satoshi Nakamoto</span><span class="sep"></span><span class="year">2008</span></p>
-            <p class="note">Nine pages on using a proof-of-work chain to order transactions without a trusted third party.</p>
-          </li>
-
-          <li class="entry" id="shielded-bitcoin-2026" data-year="2026" data-tags="crypto networks">
-            <a class="title" href="https://www.allocinit.xyz/uploads/shielded-bitcoin.pdf" target="_blank" rel="noopener noreferrer">Shielded Bitcoin: Private Transfers on the Bitcoin L1</a>
-            <p class="meta"><span class="author">Clara Shikhelman, Mikhail Komarov and Aleksei Moskvin</span><span class="sep"></span><span class="year">2026</span></p>
-            <p class="note">Zcash-style private transfers on Bitcoin itself: encrypted notes and zero-knowledge proofs, with no consensus changes and no separate chain.</p>
-          </li>
-
-          <li class="entry" id="tesla-fbi-1957" data-year="1957" data-tags="archive gov">
-            <a class="title" href="https://vault.fbi.gov/nikola-tesla/Nikola%20Tesla%20Part%2003%20%28Final%29" target="_blank" rel="noopener noreferrer">Nikola Tesla Files, Part 3</a>
-            <p class="meta"><span class="author">Federal Bureau of Investigation</span><span class="sep"></span><span class="year">1957</span></p>
-            <p class="note">The Bureau's file on the custody and review of Tesla's papers following his death in 1943.</p>
-          </li>
-
-          <li class="entry" id="textfiles-1998" data-year="1998" data-tags="archive">
-            <a class="title" href="http://textfiles.com/directory.html" target="_blank" rel="noopener noreferrer">The TEXTFILES.COM Archive</a>
-            <p class="meta"><span class="author">Various BBS authors, compiled by Jason Scott</span><span class="sep"></span><span class="year">1998</span></p>
-            <p class="note">The written record of the BBS era — phreaking, zines, ANSI art, and the folklore of dial-up culture.</p>
-          </li>
-
-          <li class="entry" id="overpass-2011" data-year="2011" data-tags="geo">
-            <a class="title" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/37364.pdf" target="_blank" rel="noopener noreferrer">Geometric Overpass Extraction from Vector Road Data and DSMs</a>
-            <p class="meta"><span class="author">Joshua Schpok</span><span class="sep"></span><span class="year">2011</span></p>
-            <p class="note">Working out which roads pass over which, from flat vector road data plus a digital surface model.</p>
-          </li>
-
-          <li class="entry" id="omnisec-2025" data-year="2025" data-tags="ml systems">
-            <a class="title" href="https://arxiv.org/pdf/2503.03108" target="_blank" rel="noopener noreferrer">OMNISEC: LLM-Driven Provenance-based Intrusion Detection</a>
-            <p class="meta"><span class="author">Wenrui Cheng et al.</span><span class="sep"></span><span class="year">2025</span></p>
-            <p class="note">Pointing a language model at system provenance graphs to flag intrusions without hand-written detection rules.</p>
-          </li>
-
-          <li class="entry" id="erts-1-1974" data-year="1974" data-tags="geo gov">
-            <a class="title" href="https://ntrs.nasa.gov/api/citations/19750013705/downloads/19750013705.pdf" target="_blank" rel="noopener noreferrer">The ERTS-1 Investigation (ER-600)</a>
-            <p class="meta"><span class="author">R. Bryan Erb</span><span class="sep"></span><span class="year">1974</span></p>
-            <p class="note">NASA on the first Earth Resources Technology Satellite — the mission later renamed Landsat 1.</p>
-          </li>
-
-          <li class="entry" id="edible-plants-2003" data-year="2003" data-tags="archive gov">
-            <a class="title" href="https://archive.org/details/the-official-u.-s.-army-illustrated-guide-to-edible-wild-plants/mode/2up" target="_blank" rel="noopener noreferrer">The Official U.S. Army Illustrated Guide to Edible Wild Plants</a>
-            <p class="meta"><span class="author">U.S. Army</span><span class="sep"></span><span class="year">2003</span></p>
-            <p class="note">Field identification of edible wild plants, illustrated, from the Army's survival curriculum.</p>
-          </li>
-
-          <li class="entry" id="la-sirens-2006" data-year="2006" data-tags="archive">
-            <a class="title" href="http://www.wirechief.com/sirens/index.htm" target="_blank" rel="noopener noreferrer">Los Angeles Air Raid Sirens Archive</a>
-            <p class="meta"><span class="author">Dennis H</span><span class="sep"></span><span class="year">2006</span></p>
-            <p class="note">A hobbyist's survey of the city's Cold War civil-defense siren network: models, sites, and recordings.</p>
-          </li>
-
-          <li class="entry" id="c2pa-2020" data-year="2020" data-tags="crypto web">
-            <a class="title" href="https://acrobat.adobe.com/link/track?uri=urn%3Aaaid%3Ascds%3AUS%3A2c6361d5-b8da-4aca-89bd-1ed66cd22d19" target="_blank" rel="noopener noreferrer">Coalition for Content Provenance and Authenticity (C2PA)</a>
-            <p class="meta"><span class="author">Leonard Rosenthol et al.</span><span class="sep"></span><span class="year">2020</span></p>
-            <p class="note">The spec for cryptographically signed provenance metadata bound to images, audio, and video.</p>
-          </li>
-
-          <li class="entry" id="attention-2017" data-year="2017" data-tags="ml">
-            <a class="title" href="https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank" rel="noopener noreferrer">Attention Is All You Need</a>
-            <p class="meta"><span class="author">Ashish Vaswani et al.</span><span class="sep"></span><span class="year">2017</span></p>
-            <p class="note">The Transformer: attention alone, no recurrence, no convolution. Most of the current field descends from this.</p>
-          </li>
-
-          <li class="entry" id="first-language-1981" data-year="1981" data-tags="languages">
-            <a class="title" href="https://fermatslibrary.com/s/the-consequences-of-ones-first-programming-language" target="_blank" rel="noopener noreferrer">The Consequences of One's First Programming Language</a>
-            <p class="meta"><span class="author">Richard L. Wexelblat</span><span class="sep"></span><span class="year">1981</span></p>
-            <p class="note">An early look at how the first language you learn shapes the way you write every language after it.</p>
-          </li>
-
-          <li class="entry" id="llm-deanonymization-2026" data-year="2026" data-tags="ml web">
-            <a class="title" href="https://arxiv.org/pdf/2602.16800" target="_blank" rel="noopener noreferrer">Large-scale Online Deanonymization with LLMs</a>
-            <p class="meta"><span class="author">Simon Lermen et al.</span><span class="sep"></span><span class="year">2026</span></p>
-            <p class="note">Matching pseudonymous accounts across platforms from raw text alone. Up to 68% recall at 90% precision, where classical methods found almost nothing.</p>
-          </li>
-
-          <li class="entry" id="mamba-2023" data-year="2023" data-tags="ml">
-            <a class="title" href="https://arxiv.org/pdf/2312.00752" target="_blank" rel="noopener noreferrer">Mamba: Linear-Time Sequence Modeling with Selective State Spaces</a>
-            <p class="meta"><span class="author">Albert Gu and Tri Dao</span><span class="sep"></span><span class="year">2023</span></p>
-            <p class="note">Selective state space models — a linear-time architecture that stays competitive with attention at long context.</p>
-          </li>
-
-          <li class="entry" id="bitchat-2025" data-year="2025" data-tags="networks crypto">
-            <a class="title" href="https://github.com/permissionlesstech/bitchat/blob/main/WHITEPAPER.md" target="_blank" rel="noopener noreferrer">BitChat Protocol Whitepaper</a>
-            <p class="meta"><span class="author">Permissionlesstech</span><span class="sep"></span><span class="year">2025</span></p>
-            <p class="note">A Bluetooth mesh messaging protocol: no servers, no accounts, no phone numbers.</p>
-          </li>
-
-          <li class="entry" id="ruliad-2021" data-year="2021" data-tags="math">
-            <a class="title" href="https://writings.stephenwolfram.com/2021/11/the-concept-of-the-ruliad/" target="_blank" rel="noopener noreferrer">The Concept of the Ruliad</a>
-            <p class="meta"><span class="author">Stephen Wolfram</span><span class="sep"></span><span class="year">2021</span></p>
-            <p class="note">Wolfram's proposed limit object: the entangled result of running every possible computational rule.</p>
-          </li>
-
-          <li class="entry" id="blue-book-1977" data-year="1977" data-tags="archive gov">
-            <a class="title" href="https://vault.fbi.gov/Project%20Blue%20Book%20(UFO)%20/Project%20Blue%20Book%20(UFO)%20Part%2001%20(Final)/view" target="_blank" rel="noopener noreferrer">Project Blue Book (UFO) Files, Part 1</a>
-            <p class="meta"><span class="author">Federal Bureau of Investigation</span><span class="sep"></span><span class="year">1977</span></p>
-            <p class="note">The Bureau's file on the Air Force's long-running UFO investigation.</p>
-          </li>
-
-          <li class="entry" id="unison" data-year="" data-tags="languages">
-            <a class="title" href="https://unison-code.github.io/doc/manual.pdf" target="_blank" rel="noopener noreferrer">Unison: Combinatorial Register Allocation and Instruction Scheduling</a>
-            <p class="meta"><span class="author">Roberto Castañeda Lozano</span></p>
-            <p class="note">Treating register allocation and instruction scheduling as one combinatorial optimization problem instead of two heuristic passes.</p>
-          </li>
-
-          <li class="entry" id="nelson-1980" data-year="1980" data-tags="languages math">
-            <a class="title" href="https://people.eecs.berkeley.edu/~necula/Papers/nelson-thesis.pdf" target="_blank" rel="noopener noreferrer">Techniques for Program Verification</a>
-            <p class="meta"><span class="author">Greg Nelson</span><span class="sep"></span><span class="year">1980</span></p>
-            <p class="note">The thesis behind Simplify — congruence closure and the combination of decision procedures that SMT solvers still lean on.</p>
-          </li>
-
-          <li class="entry" id="end-to-end-1984" data-year="1984" data-tags="networks systems">
-            <a class="title" href="https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf" target="_blank" rel="noopener noreferrer">End-to-End Arguments in System Design</a>
-            <p class="meta"><span class="author">J. H. Saltzer, D. P. Reed and D. D. Clark</span><span class="sep"></span><span class="year">1984</span></p>
-            <p class="note">Why a function usually belongs at the endpoints of a system rather than in the network beneath it.</p>
-          </li>
-
-          <li class="entry" id="egraphs-2021" data-year="2021" data-tags="languages">
-            <a class="title" href="https://egraphs.org/" target="_blank" rel="noopener noreferrer">E-graphs Research Community</a>
-            <p class="meta"><span class="author">egraphs-good</span><span class="sep"></span><span class="year">2021</span></p>
-            <p class="note">The hub for equality saturation — rewriting programs by keeping every equivalent version around at once.</p>
-          </li>
-
-          <li class="entry" id="spectral-graph-2012" data-year="2012" data-tags="math">
-            <a class="title" href="https://math.uchicago.edu/~may/REU2012/REUPapers/JiangJ.pdf" target="_blank" rel="noopener noreferrer">An Introduction to Spectral Graph Theory</a>
-            <p class="meta"><span class="author">Jiaqi Jiang</span><span class="sep"></span><span class="year">2012</span></p>
-            <p class="note">Reading a graph's structure off the eigenvalues of its adjacency and Laplacian matrices.</p>
-          </li>
-
-          <li class="entry" id="blake3-2020" data-year="2020" data-tags="crypto">
-            <a class="title" href="https://github.com/BLAKE3-team/BLAKE3-specs?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">BLAKE3 Cryptographic Hash Function Specification</a>
-            <p class="meta"><span class="author">Jack O'Connor et al.</span><span class="sep"></span><span class="year">2020</span></p>
-            <p class="note">A Merkle-tree hash built to be fast and parallel: the spec, the test vectors, and the design rationale.</p>
-          </li>
-
-          <li class="entry" id="nested-learning-2025" data-year="2025" data-tags="ml">
-            <a class="title" href="https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/" target="_blank" rel="noopener noreferrer">Nested Learning: A New ML Paradigm for Continual Learning</a>
-            <p class="meta"><span class="author">Ali Behrouz &amp; Vahab Mirrokni</span><span class="sep"></span><span class="year">2025</span></p>
-            <p class="note">Framing a model as nested optimization problems running at different update rates, aimed at learning without forgetting.</p>
-          </li>
-
-          <li class="entry" id="vibe-arcade-2026" data-year="2026" data-tags="web">
-            <a class="title" href="https://arcade.pirillo.com/" target="_blank" rel="noopener noreferrer">Vibe Arcade</a>
-            <p class="meta"><span class="author">Chris Pirillo</span><span class="sep"></span><span class="year">2026</span></p>
-            <p class="note">A shelf of small browser games, built fast and playable in a tab.</p>
-          </li>
-        </ul>
-
-        <p class="empty" id="empty" hidden>
-          Nothing matches that. <button class="tag-btn" type="button" id="reset">clear filters</button>
+      <section class="section" aria-labelledby="demos-heading">
+        <h2 id="demos-heading">Demos</h2>
+        <p>
+          Send a private streaming link to
+          <a href="mailto:hello@indexless.net?subject=Demo">hello@indexless.net</a>.
+          No attachments.
         </p>
-      </div>
+      </section>
+
+      <section class="section" aria-labelledby="library-heading">
+        <h2 id="library-heading">Library</h2>
+        <p>
+          <a href="/library/">The indexless library</a>: technical documents,
+          research papers and cultural artifacts on data and networks.
+        </p>
+      </section>
     </main>
 
     <footer>
       <span class="footer-left">
         <span>© <span data-yr>2026</span> indexless</span>
         <span>No tracking, no accounts.</span>
+        <span><a href="/library/">Library</a></span>
         <span><a href="/about/">About</a></span>
       </span>
       <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
@@ -850,382 +476,27 @@
 
     <script>
       (function () {
-        'use strict';
-
         var root = document.documentElement;
+        var btn = document.getElementById('theme-toggle');
 
-        /* ---------- theme ---------- */
-
-        var toggle = document.getElementById('theme-toggle');
-
-        function syncToggle() {
+        function sync() {
           var light = root.classList.contains('light');
-          toggle.setAttribute('aria-pressed', String(light));
-          toggle.setAttribute(
+          btn.setAttribute('aria-pressed', String(light));
+          btn.setAttribute(
             'aria-label',
             light ? 'Switch to dark theme' : 'Switch to light theme'
           );
         }
 
-        toggle.addEventListener('click', function () {
+        btn.addEventListener('click', function () {
           var light = root.classList.toggle('light');
           try {
             localStorage.setItem('indexless-theme', light ? 'light' : 'dark');
           } catch (e) {}
-          syncToggle();
+          sync();
         });
 
-        syncToggle();
-
-        /* ---------- entry index ---------- */
-
-        var list = document.getElementById('entries');
-        var entries = Array.prototype.slice.call(
-          list.querySelectorAll('.entry')
-        );
-        var search = document.getElementById('search');
-        var sortSel = document.getElementById('sort');
-        var tagbar = document.getElementById('tagbar');
-        var countEl = document.getElementById('count');
-        var emptyEl = document.getElementById('empty');
-
-        var FILETYPE = { pdf: 'PDF' };
-
-        var HOST_ALIAS = {
-          'static.googleusercontent.com': 'research.google.com',
-          'acrobat.adobe.com': 'c2pa.org',
-          'proceedings.neurips.cc': 'neurips.cc'
-        };
-
-        function hostOf(href) {
-          try {
-            var h = new URL(href).hostname.replace(/^www\./, '');
-            return HOST_ALIAS[h] || h;
-          } catch (e) {
-            return '';
-          }
-        }
-
-        function filetypeOf(href) {
-          var m = /\.([a-z0-9]{2,4})(?:[?#]|$)/i.exec(
-            href.split('#')[0].split('?')[0]
-          );
-          return m ? FILETYPE[m[1].toLowerCase()] || '' : '';
-        }
-
-        var tagCounts = Object.create(null);
-
-        var index = entries.map(function (el, i) {
-          var a = el.querySelector('.title');
-          var meta = el.querySelector('.meta');
-          var note = el.querySelector('.note');
-          var tags = (el.dataset.tags || '').split(/\s+/).filter(Boolean);
-          var host = hostOf(a.href);
-          var ft = filetypeOf(a.href);
-
-          if (host) {
-            meta.appendChild(el0('span', 'sep'));
-            meta.appendChild(el0('span', 'src', host));
-          }
-          if (ft) {
-            meta.appendChild(el0('span', 'ft', ft));
-          }
-          tags.forEach(function (t) {
-            tagCounts[t] = (tagCounts[t] || 0) + 1;
-            var b = el0('button', 'tag-inline', '#' + t);
-            b.type = 'button';
-            b.dataset.tag = t;
-            meta.appendChild(b);
-          });
-          var pl = el0('a', 'plink', '¶');
-          pl.href = '#' + el.id;
-          pl.setAttribute('aria-label', 'Link to this entry');
-          meta.appendChild(pl);
-
-          return {
-            el: el,
-            order: i,
-            year: parseInt(el.dataset.year, 10) || 0,
-            title: a.textContent.trim(),
-            tags: tags,
-            haystack: [
-              a.textContent,
-              meta.textContent,
-              note ? note.textContent : '',
-              tags.join(' '),
-              host
-            ]
-              .join(' ')
-              .toLowerCase()
-          };
-        });
-
-        function el0(tag, cls, text) {
-          var n = document.createElement(tag);
-          n.className = cls;
-          if (text != null) n.textContent = text;
-          return n;
-        }
-
-        /* ---------- tag bar ---------- */
-
-        var activeTag = '';
-
-        Object.keys(tagCounts)
-          .sort(function (a, b) {
-            return tagCounts[b] - tagCounts[a] || a.localeCompare(b);
-          })
-          .forEach(function (t) {
-            var b = el0('button', 'tag-btn', t + ' ' + tagCounts[t]);
-            b.type = 'button';
-            b.dataset.tag = t;
-            b.setAttribute('aria-pressed', 'false');
-            tagbar.appendChild(b);
-          });
-
-        function setTag(t) {
-          activeTag = activeTag === t ? '' : t;
-          Array.prototype.forEach.call(
-            tagbar.querySelectorAll('.tag-btn'),
-            function (b) {
-              b.setAttribute(
-                'aria-pressed',
-                String(b.dataset.tag === activeTag)
-              );
-            }
-          );
-          apply();
-        }
-
-        tagbar.addEventListener('click', function (e) {
-          var b = e.target.closest('.tag-btn');
-          if (b) setTag(b.dataset.tag);
-        });
-
-        list.addEventListener('click', function (e) {
-          var b = e.target.closest('.tag-inline');
-          if (!b) return;
-          e.preventDefault();
-          setTag(b.dataset.tag);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        /* ---------- filter + sort ---------- */
-
-        var sorters = {
-          curated: function (a, b) {
-            return a.order - b.order;
-          },
-          newest: function (a, b) {
-            return (b.year || -1) - (a.year || -1) || a.order - b.order;
-          },
-          oldest: function (a, b) {
-            return (
-              (a.year || 1e4) - (b.year || 1e4) || a.order - b.order
-            );
-          },
-          title: function (a, b) {
-            return a.title.localeCompare(b.title);
-          }
-        };
-
-        function apply() {
-          var q = search.value.trim().toLowerCase();
-          var terms = q ? q.split(/\s+/) : [];
-          var shown = 0;
-
-          index.forEach(function (item) {
-            var ok =
-              (!activeTag || item.tags.indexOf(activeTag) !== -1) &&
-              terms.every(function (t) {
-                return item.haystack.indexOf(t) !== -1;
-              });
-            item.el.hidden = !ok;
-            if (ok) shown++;
-          });
-
-          var sorted = index.slice().sort(sorters[sortSel.value]);
-          var frag = document.createDocumentFragment();
-          sorted.forEach(function (item) {
-            frag.appendChild(item.el);
-          });
-          list.appendChild(frag);
-          if (current && current.hidden) setCurrent(null);
-
-          countEl.textContent =
-            shown === index.length
-              ? index.length + ' documents'
-              : shown + ' of ' + index.length + ' documents';
-          emptyEl.hidden = shown !== 0;
-
-          syncUrl(q);
-        }
-
-        /* ---------- url state ---------- */
-
-        function syncUrl(q) {
-          var p = new URLSearchParams();
-          if (q) p.set('q', q);
-          if (activeTag) p.set('t', activeTag);
-          if (sortSel.value !== 'curated') p.set('sort', sortSel.value);
-          var s = p.toString();
-          /* replaceState throws on file:// and data: URLs. */
-          try {
-            history.replaceState(
-              null, '', (s ? '?' + s : location.pathname) + location.hash
-            );
-          } catch (e) {}
-        }
-
-        function readUrl() {
-          var p = new URLSearchParams(location.search);
-          search.value = p.get('q') || '';
-          var t = p.get('t');
-          if (t && tagCounts[t]) {
-            activeTag = t;
-            var b = tagbar.querySelector('[data-tag="' + t + '"]');
-            if (b) b.setAttribute('aria-pressed', 'true');
-          }
-          var s = p.get('sort');
-          if (s && sorters[s]) sortSel.value = s;
-        }
-
-        /* ---------- keyboard cursor + random ---------- */
-
-        var current = null;
-
-        function visible() {
-          return Array.prototype.slice.call(
-            list.querySelectorAll('.entry:not([hidden])')
-          );
-        }
-
-        function setCurrent(el, scroll) {
-          if (current) current.classList.remove('is-current');
-          current = el || null;
-          if (!current) return;
-          current.classList.add('is-current');
-          if (scroll) {
-            current.scrollIntoView({ block: scroll, behavior: 'smooth' });
-          }
-        }
-
-        function step(dir) {
-          var v = visible();
-          if (!v.length) return;
-          var i = current ? v.indexOf(current) : -1;
-          i = i < 0 ? (dir > 0 ? 0 : v.length - 1) : i + dir;
-          if (i < 0 || i >= v.length) return;
-          setCurrent(v[i], 'nearest');
-        }
-
-        document.getElementById('random').addEventListener('click', function () {
-          var v = visible();
-          if (!v.length) return;
-          var pick;
-          do { pick = v[Math.floor(Math.random() * v.length)]; }
-          while (v.length > 1 && pick === current);
-          setCurrent(pick, 'center');
-        });
-
-        list.addEventListener('click', function (e) {
-          var li = e.target.closest('.entry');
-          if (li && e.target.closest('.plink')) setCurrent(li);
-        });
-
-        /* ---------- wiring ---------- */
-
-        search.addEventListener('input', apply);
-        sortSel.addEventListener('change', apply);
-
-        document.getElementById('reset').addEventListener('click', function () {
-          search.value = '';
-          if (activeTag) setTag(activeTag);
-          else apply();
-          search.focus();
-        });
-
-        document.addEventListener('keydown', function (e) {
-          var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(
-            document.activeElement.tagName
-          );
-          if (e.metaKey || e.ctrlKey || e.altKey) return;
-          if (typing) {
-            if (e.key === 'Escape') {
-              search.value = '';
-              apply();
-              search.blur();
-            }
-            return;
-          }
-          switch (e.key) {
-            case '/':
-              e.preventDefault();
-              search.focus();
-              search.select();
-              break;
-            case 'j':
-            case 'ArrowDown':
-              e.preventDefault();
-              step(1);
-              break;
-            case 'k':
-            case 'ArrowUp':
-              e.preventDefault();
-              step(-1);
-              break;
-            case 'Enter':
-            case 'o':
-              if (current) current.querySelector('.title').click();
-              break;
-            case 'r':
-              document.getElementById('random').click();
-              break;
-            case 'Escape':
-              setCurrent(null);
-              break;
-          }
-        });
-
-        readUrl();
-        apply();
-
-        function focusHash() {
-          if (!location.hash) return;
-          var target = document.getElementById(location.hash.slice(1));
-          if (!target || !target.classList.contains('entry')) return;
-          if (target.hidden) {
-            search.value = '';
-            if (activeTag) setTag(activeTag); else apply();
-          }
-          setCurrent(target, 'center');
-        }
-
-        focusHash();
-        window.addEventListener('hashchange', focusHash);
-
-        /* ---------- structured data ---------- */
-
-        // the list rides on the page's own CollectionPage (mainEntity) instead of a second block
-        var ldEl = document.querySelector('script[type="application/ld+json"]');
-        try {
-          var page = JSON.parse(ldEl.textContent);
-          page.mainEntity = {
-            '@type': 'ItemList',
-            name: 'indexless: selected works',
-            numberOfItems: index.length,
-            itemListElement: index.map(function (item, i) {
-              var a = item.el.querySelector('.title');
-              var author = item.el.querySelector('.author');
-              var doc = { '@type': 'DigitalDocument', name: item.title, url: a.href };
-              if (/\.pdf($|[?#])/i.test(a.href)) doc.encodingFormat = 'application/pdf';
-              if (author) doc.author = author.textContent.trim();
-              if (item.year) doc.datePublished = String(item.year);
-              return { '@type': 'ListItem', position: i + 1, item: doc };
-            })
-          };
-          ldEl.textContent = JSON.stringify(page);
-        } catch (e) {}
+        sync();
       })();
     </script>
   <script>document.querySelectorAll("[data-yr]").forEach(function(e){e.textContent=new Date().getFullYear()})</script>

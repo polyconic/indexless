@@ -243,7 +243,7 @@
 
   <body>
     <header class="masthead">
-      <a class="back" href="/" title="Back to the library" aria-label="Back to the library">
+      <a class="back" href="/" title="Home" aria-label="Home">
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -294,8 +294,8 @@
         Nothing is filed at <span class="code" id="path"></span>.
       </p>
       <p>
-        <a href="/">Back to the library</a>, or
-        <a href="/?q=" id="search-link">search it</a>.
+        <a href="/">Home</a>, <a href="/library/">the library</a>, or
+        <a href="/library/?q=" id="search-link">search it</a>.
       </p>
     </main>
 
@@ -303,6 +303,7 @@
       <span class="footer-left">
         <span>© <span data-yr>2026</span> indexless</span>
         <span>No tracking, no accounts.</span>
+        <span><a href="/library/">Library</a></span>
         <span><a href="/about/">About</a></span>
       </span>
       <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
@@ -341,7 +342,7 @@
         guess = guess.replace(/[-_+]+/g, ' ').trim();
         if (guess) {
           document.getElementById('search-link').href =
-            '/?q=' + encodeURIComponent(guess);
+            '/library/?q=' + encodeURIComponent(guess);
         }
       })();
     </script>
