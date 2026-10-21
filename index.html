@@ -110,6 +110,13 @@
         -webkit-font-smoothing: antialiased;
       }
 
+      /* Everything sits in one centered 820px column. */
+      body > * {
+        width: 100%;
+        max-width: 820px;
+        margin-inline: auto;
+      }
+
       .mono {
         font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
           Consolas, 'Liberation Mono', monospace;
@@ -201,7 +208,7 @@
       }
 
       .intro {
-        margin: 0.5rem 0 3.5rem 0;
+        margin-block: 0.5rem 3.5rem;
       }
 
       .lead {
