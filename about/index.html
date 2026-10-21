@@ -214,6 +214,36 @@
         text-decoration-color: var(--text);
       }
 
+      .facts {
+        margin: 2.5rem 0 0 0;
+        max-width: 62ch;
+        border-top: 1px solid var(--rule-solid);
+      }
+
+      .facts div {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr;
+        gap: 1rem;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid var(--rule-solid);
+      }
+
+      .facts dt {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        color: var(--dim);
+        padding-top: 0.15rem;
+      }
+
+      .facts dd {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--text);
+      }
+
       footer {
         view-transition-name: site-footer;
         flex-shrink: 0;
@@ -330,20 +360,21 @@
     <main>
       <h1>About</h1>
       <p>
-        Indexless is an independent label for electronic music: techno, IDM,
-        ambient, and experimental.
+        Indexless is an independent label for electronic music, working across
+        techno, IDM, ambient and experimental sound. We put out records that
+        reward close listening and patience.
       </p>
       <p>
-        We put out records that reward close listening and patience.
+        The name is the point. No tracking and no algorithm between the music
+        and whoever finds it.
       </p>
-      <p>
-        The name is the point. No tracking and no algorithm between
-        the music and whoever finds it.
-      </p>
-      <p>
-        Demos: send a streaming link or file to
-        <a href="mailto:hello@indexless.net?subject=Demo">hello@indexless.net</a>.
-      </p>
+
+      <dl class="facts">
+        <div><dt>Est.</dt><dd>2026</dd></div>
+        <div><dt>Sound</dt><dd>Techno, IDM, ambient, experimental</dd></div>
+        <div><dt>Catalog</dt><dd><a href="/">IDX001 Corestones EP</a>, in progress</dd></div>
+        <div><dt>Demos</dt><dd>A streaming link or file to <a href="mailto:hello@indexless.net?subject=Demo">hello@indexless.net</a></dd></div>
+      </dl>
     </main>
 
     <footer>
