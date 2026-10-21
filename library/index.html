@@ -111,8 +111,9 @@
         -webkit-font-smoothing: antialiased;
       }
 
-      /* Everything sits in one centered 820px column. */
-      body > * {
+      /* Header and footer span the window; everything between sits in one
+         centered 820px column. */
+      body > :not(.masthead):not(footer) {
         width: 100%;
         max-width: 820px;
         margin-inline: auto;
