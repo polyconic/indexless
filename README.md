@@ -1,6 +1,6 @@
 # indexless
 
-A library of shit I find cool.
+The beginning of label. Mostly techno.
 
 ## Contact
 
