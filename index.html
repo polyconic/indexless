@@ -110,9 +110,9 @@
         -webkit-font-smoothing: antialiased;
       }
 
-      /* Header and footer span the window; everything between sits in one
-         centered 820px column. */
-      body > :not(.masthead):not(footer) {
+      /* Header, intro and footer span the window, the intro sitting under the
+         wordmark; everything between sits in one centered 820px column. */
+      body > :not(.masthead):not(.intro):not(footer) {
         width: 100%;
         max-width: 820px;
         margin-inline: auto;
