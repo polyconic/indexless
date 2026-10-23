@@ -301,28 +301,11 @@
         overflow: hidden;
       }
 
-      .sleeve canvas {
-        position: absolute;
-        inset: 0;
+      .sleeve img {
+        display: block;
         width: 100%;
         height: 100%;
-      }
-
-      html:not(.js) .sleeve {
-        background-image: repeating-linear-gradient(
-          45deg, var(--rule-solid) 0 1px, transparent 1px 7px
-        );
-      }
-
-      .sleeve .stamp {
-        position: absolute;
-        left: 0.6rem;
-        bottom: 0.55rem;
-        font-size: 0.65rem;
-        letter-spacing: 0.06em;
-        color: var(--text);
-        background: var(--bg);
-        padding: 0.15rem 0.4rem;
+        object-fit: cover;
       }
 
       .info p {
@@ -505,9 +488,15 @@
         <h2 id="catalog-heading">Catalog</h2>
         <ol class="catalog">
           <li class="release tba">
-            <div class="sleeve" aria-hidden="true">
-              <canvas data-seed="IDX001"></canvas>
-              <span class="stamp mono">IDX001</span>
+            <div class="sleeve">
+              <img
+                src="/img/corestones-1200.webp"
+                srcset="/img/corestones-1200.webp 1200w, /img/corestones.webp 3000w"
+                sizes="(max-width: 600px) 100vw, 260px"
+                width="1200"
+                height="1200"
+                alt="Corestones EP cover: a granite outcrop and Joshua trees, colors inverted"
+              />
             </div>
             <div class="info">
               <p class="cat mono">IDX001</p>
@@ -571,100 +560,6 @@
       })();
     </script>
 
-    <script>
-      /* Generated sleeves: an interference pattern in type, seeded by catalog number. */
-      (function () {
-        var RAMP = ' .\u00b7:-=+*#\u2593\u2588';
-        var COLS = 46;
-        var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        function hash(str) {
-          var h = 2166136261;
-          for (var i = 0; i < str.length; i++) {
-            h ^= str.charCodeAt(i);
-            h = Math.imul(h, 16777619);
-          }
-          return function () {
-            h = Math.imul(h ^ (h >>> 15), 2246822507);
-            h = Math.imul(h ^ (h >>> 13), 3266489909);
-            return ((h ^= h >>> 16) >>> 0) / 4294967296;
-          };
-        }
-
-        var sleeves = [].map.call(document.querySelectorAll('.sleeve canvas'), function (c) {
-          var r = hash(c.dataset.seed || 'indexless');
-          return {
-            c: c,
-            ax: r() * 1.2 - 0.6, ay: r() * 1.2 - 0.6,
-            bx: r() * 1.2 - 0.6, by: r() * 1.2 - 0.6,
-            f1: 9 + r() * 9, f2: 7 + r() * 9,
-            visible: true
-          };
-        });
-
-        function draw(s, t) {
-          var c = s.c;
-          var size = c.clientWidth;
-          if (!size) return;
-          var dpr = window.devicePixelRatio || 1;
-          if (c.width !== Math.round(size * dpr)) {
-            c.width = c.height = Math.round(size * dpr);
-          }
-          var ctx = c.getContext('2d');
-          var css = getComputedStyle(document.documentElement);
-          var dim = css.getPropertyValue('--dim').trim();
-          var text = css.getPropertyValue('--text').trim();
-          var accent = css.getPropertyValue('--accent').trim();
-          var cw = size / COLS, ch = cw * 1.65;
-          var rows = Math.ceil(size / ch);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          ctx.clearRect(0, 0, size, size);
-          ctx.font = (ch * 0.92) + 'px ui-monospace, SFMono-Regular, Menlo, monospace';
-          ctx.textBaseline = 'top';
-          for (var y = 0; y < rows; y++) {
-            for (var x = 0; x < COLS; x++) {
-              var u = (x + 0.5) / COLS * 2 - 1;
-              var v = (y + 0.5) / rows * 2 - 1;
-              var d1 = Math.hypot(u - s.ax, v - s.ay);
-              var d2 = Math.hypot(u - s.bx, v - s.by);
-              var n = (Math.sin(s.f1 * d1 - t) + Math.sin(s.f2 * d2 + t * 0.8) + 2) / 4;
-              n = Math.pow(n, 1.7);
-              var i = Math.floor(n * (RAMP.length - 1) + 0.5);
-              if (i === 0) continue;
-              ctx.fillStyle = n > 0.985 ? accent : n > 0.6 ? text : dim;
-              ctx.fillText(RAMP[i], x * cw, y * ch);
-            }
-          }
-        }
-
-        function frameAll(t) {
-          sleeves.forEach(function (s) { if (s.visible) draw(s, t); });
-        }
-
-        if ('IntersectionObserver' in window) {
-          var io = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-              sleeves.forEach(function (s) { if (s.c === e.target) s.visible = e.isIntersecting; });
-            });
-          });
-          sleeves.forEach(function (s) { io.observe(s.c); });
-        }
-
-        var t = 0, last = 0;
-        frameAll(t);
-        addEventListener('resize', function () { frameAll(t); });
-        document.getElementById('theme-toggle').addEventListener('click', function () { frameAll(t); });
-        if (still) return;
-        (function loop(now) {
-          if (now - last > 90) {
-            last = now;
-            t += 0.06;
-            frameAll(t);
-          }
-          requestAnimationFrame(loop);
-        })(0);
-      })();
-    </script>
   <script>document.querySelectorAll("[data-yr]").forEach(function(e){e.textContent=new Date().getFullYear()})</script>
 </body>
 </html>
