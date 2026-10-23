@@ -1,6 +1,6 @@
 # indexless
 
-The beginning of label. Mostly techno.
+The beginning of a label. Mostly techno.
 
 ## Contact
 
