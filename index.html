@@ -256,23 +256,10 @@
         font-weight: bold;
       }
 
-      .section p {
-        font-size: 0.95rem;
-        line-height: 1.6;
+      .based {
+        font-size: 0.8rem;
         color: var(--dim);
         margin: 0;
-        max-width: 62ch;
-      }
-
-      .section p a {
-        color: var(--text);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        text-decoration-color: var(--rule-solid);
-      }
-
-      .section p a:hover {
-        text-decoration-color: var(--text);
       }
 
       /* ---------- catalog ---------- */
@@ -331,28 +318,6 @@
         line-height: 1.6;
         color: var(--dim);
         max-width: 40ch;
-        margin-bottom: 1rem;
-      }
-
-      .info .status {
-        font-size: 0.73rem;
-        color: var(--faint);
-      }
-
-      .release.tba .status::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        margin-right: 0.45rem;
-        border-radius: 50%;
-        background: var(--accent);
-        vertical-align: 1px;
-        animation: blink 2.4s steps(1, end) infinite;
-      }
-
-      @keyframes blink {
-        50% { opacity: 0; }
       }
 
       /* ---------- footer ---------- */
@@ -502,34 +467,17 @@
               <p class="cat mono">IDX001</p>
               <p class="title">Corestones EP - Gregor Egan</p>
               <p class="note">The first indexless release. Details soon.</p>
-              <p class="status mono">in progress</p>
             </div>
           </li>
         </ol>
       </section>
 
-      <section class="section" aria-labelledby="about-heading">
-        <h2 id="about-heading">About</h2>
-        <p>
-          We put out records that reward close listening and patience, with no
-          algorithm between the music and whoever finds it.
-          <a href="/about/">More</a>
-        </p>
-      </section>
-
-      <section class="section" aria-labelledby="demos-heading">
-        <h2 id="demos-heading">Demos</h2>
-        <p>
-          Send a streaming link or file to
-          <a href="mailto:hello@indexless.net?subject=Demo">hello@indexless.net</a>.
-        </p>
-      </section>
+      <p class="based">Based in Los Angeles</p>
     </main>
 
     <footer>
       <span class="footer-left">
         <span>© <span data-yr>2026</span> indexless</span>
-        <span><a href="/about/">About</a></span>
       </span>
       <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
     </footer>
