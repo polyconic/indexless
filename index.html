@@ -33,10 +33,6 @@
     <meta name="twitter:description" content="An independent label for electronic music." />
     <meta name="twitter:image" content="https://indexless.net/opengraph.png" />
 
-    <script type="speculationrules">
-    {"prerender": [{"where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/essays/*"}}]}, "eagerness": "moderate"}]}
-    </script>
-
     <script type="application/ld+json">
     [
       {
@@ -77,12 +73,8 @@
         --bg: rgb(31, 31, 30);
         --text: #ededea;
         --dim: #8b8b86;
-        --faint: #5a5a56;
-        --rule-solid: #3a3a37;
         --accent: #00ff00;
         --header: #fff;
-        --chip-bg: rgba(255, 255, 255, 0.05);
-        --sleeve-bg: #181817;
         color-scheme: dark;
       }
 
@@ -90,12 +82,8 @@
         --bg: #fafaf7;
         --text: #17171a;
         --dim: #5f5f5a;
-        --faint: #8f8f89;
-        --rule-solid: #ddddd6;
         --accent: #00a000;
         --header: #000;
-        --chip-bg: rgba(0, 0, 0, 0.04);
-        --sleeve-bg: #efefea;
         color-scheme: light;
       }
 
@@ -111,25 +99,13 @@
         background-color: var(--bg);
         color: var(--text);
         margin: 0;
-        padding: 2rem;
+        padding: 1.5rem;
         min-height: 100vh;
         min-height: 100svh;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        place-items: center;
+        text-align: center;
         -webkit-font-smoothing: antialiased;
-      }
-
-      /* Header, intro and footer span the window, the intro sitting under the
-         wordmark; everything between sits in one centered 820px column. */
-      body > :not(.masthead):not(.intro):not(footer) {
-        width: 100%;
-        max-width: 820px;
-        margin-inline: auto;
-      }
-
-      .mono {
-        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
-          Consolas, 'Liberation Mono', monospace;
       }
 
       .visually-hidden {
@@ -141,372 +117,53 @@
         white-space: nowrap;
       }
 
-      :where(a, button):focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-        border-radius: 2px;
+      main {
+        width: 100%;
       }
 
-      /* ---------- nav ---------- */
-
-      .masthead {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      nav {
-        view-transition-name: site-nav;
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
-        flex: none;
-      }
-
-      .toggle-btn,
-      .email-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 2.1rem;
-        min-height: 1.9rem;
-        border: 1px solid transparent;
-        background: none;
-        color: var(--dim);
-        border-radius: 999px;
-        font: inherit;
-        font-size: 0.9rem;
-        line-height: 1;
-        padding: 4px 10px;
-        text-decoration: none;
-        transition: color 0.15s ease, border-color 0.15s ease;
-        cursor: pointer;
-      }
-
-      .email-btn svg {
-        display: block;
-        width: 15px;
-        height: 15px;
-      }
-
-      .toggle-btn:hover,
-      .email-btn:hover {
-        color: var(--text);
-      }
-
-      /* ---------- masthead ---------- */
-
-      .ascii-static {
-        flex: 0 1 auto;
-        min-width: 0;
-      }
-
-      .ascii-static pre {
+      .ascii {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           'Liberation Mono', monospace;
-        font-size: clamp(5.5px, 2.05vw, 12px);
+        font-size: min(2vw, 5vh);
         line-height: 1.05;
         white-space: pre;
-        overflow-x: auto;
+        text-align: left;
         width: fit-content;
         max-width: 100%;
-        margin: 0;
+        margin: 0 auto;
         color: var(--text);
-      }
-
-      .intro {
-        margin-block: 0.5rem 3.5rem;
       }
 
       .lead {
-        font-size: clamp(1.35rem, 3.2vw, 2rem);
-        line-height: 1.2;
-        letter-spacing: -0.01em;
+        font-size: min(4.6vw, 11vh);
+        line-height: 1.15;
+        letter-spacing: -0.015em;
         font-weight: 500;
         color: var(--header);
-        margin: 0 0 0.6rem 0;
+        margin: 0.6em 0 0;
       }
 
       .genres {
-        font-size: 1rem;
-        line-height: 1.6;
+        font-size: max(1rem, min(2vw, 4.8vh));
+        line-height: 1.4;
         color: var(--dim);
-        margin: 0;
-      }
-
-      .content {
-        max-width: 820px;
-        width: 100%;
-        flex: 1 0 auto;
-      }
-
-      .section {
-        margin-bottom: 3rem;
-      }
-
-      .section h2 {
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin: 0 0 1rem 0;
-        color: var(--header);
-        font-weight: bold;
-      }
-
-      .based {
-        font-size: 0.8rem;
-        color: var(--dim);
-        margin: 0;
-      }
-
-      /* ---------- catalog ---------- */
-
-      .catalog {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        gap: 2rem;
-      }
-
-      .release {
-        display: grid;
-        grid-template-columns: minmax(0, 260px) 1fr;
-        gap: 1.75rem;
-        align-items: end;
-        padding-top: 1.25rem;
-        border-top: 1px solid var(--rule-solid);
-      }
-
-      .sleeve {
-        position: relative;
-        aspect-ratio: 1;
-        background: var(--sleeve-bg);
-        overflow: hidden;
-      }
-
-      .sleeve img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .info p {
-        margin: 0;
-      }
-
-      .info .cat {
-        font-size: 0.75rem;
-        letter-spacing: 0.06em;
-        color: var(--dim);
-        margin-bottom: 0.5rem;
-      }
-
-      .info .title {
-        font-size: 1.5rem;
-        line-height: 1.2;
-        color: var(--header);
-        margin-bottom: 0.6rem;
-      }
-
-      .info .note {
-        font-size: 0.9rem;
-        line-height: 1.6;
-        color: var(--dim);
-        max-width: 40ch;
-      }
-
-      /* ---------- footer ---------- */
-
-      footer {
-        view-transition-name: site-footer;
-        flex-shrink: 0;
-        margin-top: 4rem;
-        padding-top: 1.5rem;
-        font-size: 0.8rem;
-        color: var(--faint);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 0.4rem 1rem;
-        width: 100%;
-      }
-
-      .footer-left {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem 1rem;
-      }
-
-      footer a {
-        color: var(--faint);
-        text-decoration: none;
-      }
-
-      footer a:hover {
-        color: var(--text);
-      }
-
-      @view-transition {
-        navigation: auto;
-      }
-
-      @media (max-width: 600px) {
-        body {
-          padding: 1.25rem;
-        }
-
-        .masthead {
-          flex-wrap: wrap;
-          gap: 0.5rem;
-        }
-
-        nav {
-          order: -1;
-          width: 100%;
-        }
-
-        .intro {
-          margin-bottom: 2.75rem;
-        }
-
-        .release {
-          grid-template-columns: 1fr;
-          gap: 1.25rem;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          transition-duration: 0.01ms !important;
-          animation: none !important;
-        }
-
-        ::view-transition-group(*),
-        ::view-transition-old(*),
-        ::view-transition-new(*) {
-          animation: none !important;
-        }
+        margin: 0.7em 0 0;
       }
     </style>
   </head>
 
   <body>
-    <h1 class="visually-hidden">indexless</h1>
-
-    <header class="masthead">
-      <div class="ascii-static" aria-hidden="true">
-        <pre class="ascii">
+    <main>
+      <h1 class="visually-hidden">indexless</h1>
+      <pre class="ascii" aria-hidden="true">
 ██╗███╗   ██╗██████╗ ███████╗██╗  ██╗██╗     ███████╗███████╗███████╗
 ██║████╗  ██║██╔══██╗██╔════╝╚██╗██╔╝██║     ██╔════╝██╔════╝██╔════╝
 ██║██╔██╗ ██║██║  ██║█████╗   ╚███╔╝ ██║     █████╗  ███████╗███████╗
 ██║██║╚██╗██║██║  ██║██╔══╝   ██╔██╗ ██║     ██╔══╝  ╚════██║╚════██║
 ██║██║ ╚████║██████╔╝███████╗██╔╝ ██╗███████╗███████╗███████║███████║
 ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚══════╝</pre>
-      </div>
-
-      <nav>
-        <button
-          class="toggle-btn"
-          id="theme-toggle"
-          type="button"
-          aria-pressed="false"
-          aria-label="Switch to light theme"
-        >
-          <span aria-hidden="true">☀︎ / ☾</span>
-        </button>
-        <a
-          href="mailto:hello@indexless.net"
-          class="email-btn"
-          title="Send an email"
-          aria-label="Send an email"
-          ><svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-            <polyline points="22,6 12,13 2,6" />
-          </svg></a
-        >
-      </nav>
-    </header>
-
-    <section class="intro">
       <p class="lead">An independent electronic music label.</p>
       <p class="genres">Techno, IDM, ambient, and experimental.</p>
-    </section>
-
-    <main class="content">
-      <section class="section" aria-labelledby="catalog-heading">
-        <h2 id="catalog-heading">Catalog</h2>
-        <ol class="catalog">
-          <li class="release tba">
-            <div class="sleeve">
-              <img
-                src="/img/corestones-1200.webp"
-                srcset="/img/corestones-1200.webp 1200w, /img/corestones.webp 3000w"
-                sizes="(max-width: 600px) 100vw, 260px"
-                width="1200"
-                height="1200"
-                alt="Corestones EP cover: a granite outcrop and Joshua trees, colors inverted"
-              />
-            </div>
-            <div class="info">
-              <p class="cat mono">IDX001</p>
-              <p class="title">Corestones EP - Gregor Egan</p>
-              <p class="note">The first indexless release. Details soon.</p>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <p class="based">Based in Los Angeles</p>
     </main>
-
-    <footer>
-      <span class="footer-left">
-        <span>© <span data-yr>2026</span> indexless</span>
-      </span>
-      <span><a href="mailto:hello@indexless.net">hello@indexless.net</a></span>
-    </footer>
-
-    <script>
-      (function () {
-        var root = document.documentElement;
-        var btn = document.getElementById('theme-toggle');
-
-        function sync() {
-          var light = root.classList.contains('light');
-          btn.setAttribute('aria-pressed', String(light));
-          btn.setAttribute(
-            'aria-label',
-            light ? 'Switch to dark theme' : 'Switch to light theme'
-          );
-        }
-
-        btn.addEventListener('click', function () {
-          var light = root.classList.toggle('light');
-          try {
-            localStorage.setItem('indexless-theme', light ? 'light' : 'dark');
-          } catch (e) {}
-          sync();
-        });
-
-        sync();
-      })();
-    </script>
-
-  <script>document.querySelectorAll("[data-yr]").forEach(function(e){e.textContent=new Date().getFullYear()})</script>
-</body>
+  </body>
 </html>
