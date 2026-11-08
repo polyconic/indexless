@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Private page: unlinked, not in the sitemap, kept out of search. -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <title>bg</title>
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+    <!-- Same theme resolution as the rest of the site; must stay in <head>. -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var stored = null;
+        try { stored = localStorage.getItem("indexless-theme"); } catch (e) {}
+        var light = stored
+          ? stored === "light"
+          : window.matchMedia("(prefers-color-scheme: light)").matches;
+        if (light) root.classList.add("light");
+      })();
+    </script>
+
+    <style>
+      :root {
+        --bg: rgb(31, 31, 30);
+        --text: #ededea;
+        --dim: #8b8b86;
+        --accent: #00ff00;
+        --board: #292927;
+        --bar: #222221;
+        --tri-a: #4b4b47;
+        --tri-b: #3a3a37;
+        --w-fill: #f2f2ee;
+        --w-stroke: #9a9a94;
+        --w-ink: #1f1f1e;
+        --b-fill: #0c0c0b;
+        --b-stroke: #6c6c67;
+        --b-ink: #ededea;
+        --die: #f2f2ee;
+        --pip: #1f1f1e;
+        color-scheme: dark;
+      }
+
+      :root.light {
+        --bg: #fafaf7;
+        --text: #17171a;
+        --dim: #5f5f5a;
+        --accent: #00a000;
+        --board: #ecebe4;
+        --bar: #dddcd4;
+        --tri-a: #b9b7ad;
+        --tri-b: #d3d1c8;
+        --w-fill: #ffffff;
+        --w-stroke: #6f6d66;
+        --w-ink: #17171a;
+        --b-fill: #1d1d1c;
+        --b-stroke: #000000;
+        --b-ink: #fafaf7;
+        --die: #17171a;
+        --pip: #fafaf7;
+        color-scheme: light;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          'Liberation Mono', monospace;
+        background-color: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 1rem;
+        min-height: 100vh;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      main { width: 100%; max-width: 920px; }
+
+      .bar-top, .bar-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: var(--dim);
+      }
+      .bar-top { margin-bottom: 0.6rem; }
+      .bar-bottom { margin-top: 1rem; }
+
+      #net.on { color: var(--accent); }
+
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .board-bg { fill: var(--board); }
+      .barc { fill: var(--bar); }
+      .tri-a { fill: var(--tri-a); }
+      .tri-b { fill: var(--tri-b); }
+      .divider { stroke: var(--bar); stroke-width: 4; }
+      .ck-w { fill: var(--w-fill); stroke: var(--w-stroke); stroke-width: 2; }
+      .ck-b { fill: var(--b-fill); stroke: var(--b-stroke); stroke-width: 2; }
+      .src { stroke: var(--accent); stroke-width: 3; }
+      .sel { stroke: var(--accent); stroke-width: 6; }
+      .ghost { fill: var(--accent); opacity: 0.35; }
+      .tray-target { fill: none; stroke: var(--accent); stroke-width: 4; }
+      .cnt { font: 700 20px ui-monospace, Menlo, monospace; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+      .cnt-w { fill: var(--w-ink); }
+      .cnt-b { fill: var(--b-ink); }
+      .lbl { font: 11px ui-monospace, Menlo, monospace; fill: var(--dim); text-anchor: middle; dominant-baseline: central; }
+      .die { fill: var(--die); }
+      .pip { fill: var(--pip); }
+      .used { opacity: 0.22; }
+      .hit { fill: transparent; cursor: pointer; }
+
+      #status {
+        margin: 1rem 0 0.25rem;
+        font-size: 1.05rem;
+        text-align: center;
+        min-height: 1.4em;
+      }
+      #last {
+        margin: 0 0 0.9rem;
+        font-size: 0.85rem;
+        color: var(--dim);
+        text-align: center;
+        min-height: 1.2em;
+      }
+
+      .controls { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+
+      button {
+        font: inherit;
+        color: var(--text);
+        background: transparent;
+        border: 1px solid var(--dim);
+        border-radius: 4px;
+        padding: 0.6em 1.3em;
+        min-height: 44px;
+        cursor: pointer;
+      }
+      button:disabled { opacity: 0.25; cursor: default; }
+      button.go:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+      button.link {
+        border: 0;
+        padding: 0.2em 0;
+        min-height: 0;
+        color: var(--dim);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        font-size: inherit;
+      }
+      .links { display: flex; gap: 1rem; }
+
+      #pick {
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 1rem;
+      }
+      #pick[hidden] { display: none; }
+      #pick p { margin: 0 0 1.2rem; }
+      #pick .controls button { min-width: 8em; }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <div class="bar-top">
+        <span id="seat"></span>
+        <span id="net">connecting…</span>
+      </div>
+
+      <svg id="board" viewBox="0 0 860 600" role="img" aria-label="Backgammon board"></svg>
+
+      <p id="status"></p>
+      <p id="last"></p>
+
+      <div class="controls">
+        <button id="roll" class="go">Roll</button>
+        <button id="undo">Undo</button>
+        <button id="done" class="go">Done</button>
+      </div>
+
+      <div class="bar-bottom">
+        <span id="score"></span>
+        <span class="links">
+          <button id="new" class="link">new game</button>
+          <button id="swap" class="link">switch side</button>
+        </span>
+      </div>
+    </main>
+
+    <div id="pick" hidden>
+      <div>
+        <p>Which side are you?</p>
+        <div class="controls">
+          <button data-seat="w">White</button>
+          <button data-seat="b">Black</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    (function () {
+      'use strict';
+
+      // ---- setup ------------------------------------------------------------
+
+      var SLUG = '2b784b55';
+      var TOPIC = 'indexless-bg-' + SLUG + '-637142baa7375481';
+      var NAME = { w: 'White', b: 'Black' };
+      function opp(p) { return p === 'w' ? 'b' : 'w'; }
+      function sgn(p) { return p === 'w' ? 1 : -1; }
+
+      function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+      function put(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+      // Fair d6 from the browser's crypto RNG. Bytes 252-255 are thrown away
+      // so every face is exactly equally likely (252 = 6 * 42).
+      function die() {
+        var a = new Uint8Array(1);
+        do { crypto.getRandomValues(a); } while (a[0] >= 252);
+        return (a[0] % 6) + 1;
+      }
+      function rid() {
+        var a = new Uint32Array(2);
+        crypto.getRandomValues(a);
+        return a[0].toString(36) + a[1].toString(36);
+      }
+
+      // ---- seat ---------------------------------------------------------------
+
+      var me = null;
+      var params = new URLSearchParams(location.search);
+      var asParam = params.get('as');
+      if (asParam === 'w' || asParam === 'b') {
+        me = asParam;
+        put('bg-' + SLUG + '-seat', me);
+      } else {
+        me = get('bg-' + SLUG + '-seat');
+        if (me !== 'w' && me !== 'b') me = null;
+      }
+
+      // ---- game state ----------------------------------------------------------
+      // Points 1-24 hold a signed count: + is White, - is Black.
+      // White moves 24 -> 1 and bears off below 1; Black moves 1 -> 24.
+
+      function startPts() {
+        var p = new Array(26).fill(0);
+        p[24] = 2; p[13] = 5; p[8] = 3; p[6] = 5;
+        p[1] = -2; p[12] = -5; p[17] = -3; p[19] = -5;
+        return p;
+      }
+
+      function fresh(score) {
+        return {
+          v: 0, h: '', game: 0,
+          pts: startPts(), bar: { w: 0, b: 0 }, off: { w: 0, b: 0 },
+          turn: null, phase: 'start',
+          rolled: [], left: [], moves: [], hist: [],
+          last: null, opening: null, winner: null, won: 0,
+          score: score || { w: 0, b: 0 }
+        };
+      }
+
+      var state = fresh();
+      function stateKey() { return 'bg-' + SLUG + '-state-' + me; }
+      function loadState() {
+        var raw = get(stateKey());
+        if (!raw) return;
+        try { var s = JSON.parse(raw); if (valid(s)) state = s; } catch (e) {}
+      }
+      function saveState() { put(stateKey(), JSON.stringify(state)); }
+      function valid(s) {
+        return s && Array.isArray(s.pts) && s.pts.length === 26 && s.bar && s.off &&
+          Array.isArray(s.left) && typeof s.v === 'number';
+      }
+
+      // Every change goes through here: bump the version, save, redraw.
+      // Turn ends, new games and finished games are also sent to the other side.
+      function commit(fn, shareIt) {
+        fn(state);
+        state.v++;
+        state.h = rid();
+        sel = null;
+        legalCache = null;
+        saveState();
+        if (state.phase !== 'move' || shareIt) share();
+        render();
+      }
+
+      // ---- rules ----------------------------------------------------------------
+
+      function allHome(pos, p) {
+        if (pos.bar[p] > 0) return false;
+        var s = sgn(p);
+        for (var i = 1; i <= 24; i++) {
+          if (pos.pts[i] * s > 0 && (p === 'w' ? i > 6 : i < 19)) return false;
+        }
+        return true;
+      }
+
+      function singleMoves(pos, p, d) {
+        var s = sgn(p), out = [], to;
+        if (pos.bar[p] > 0) {
+          to = p === 'w' ? 25 - d : d;
+          if (pos.pts[to] * s >= -1) out.push({ from: 'bar', to: to, die: d });
+          return out;
+        }
+        var home = allHome(pos, p);
+        for (var i = 1; i <= 24; i++) {
+          if (pos.pts[i] * s <= 0) continue;
+          to = p === 'w' ? i - d : i + d;
+          if (to >= 1 && to <= 24) {
+            if (pos.pts[to] * s >= -1) out.push({ from: i, to: to, die: d });
+          } else if (home) {
+            if (to === 0 || to === 25) {
+              out.push({ from: i, to: 'off', die: d });
+            } else {
+              // Overshooting: only from the rearmost checker.
+              var behind = false;
+              if (p === 'w') { for (var j = i + 1; j <= 6; j++) if (pos.pts[j] > 0) behind = true; }
+              else { for (var k = 19; k < i; k++) if (pos.pts[k] < 0) behind = true; }
+              if (!behind) out.push({ from: i, to: 'off', die: d });
+            }
+          }
+        }
+        return out;
+      }
+
+      function applyTo(pos, p, m) {
+        var s = sgn(p), hit = false;
+        if (m.from === 'bar') pos.bar[p]--; else pos.pts[m.from] -= s;
+        if (m.to === 'off') {
+          pos.off[p]++;
+        } else {
+          if (pos.pts[m.to] * s === -1) { pos.pts[m.to] = 0; pos.bar[opp(p)]++; hit = true; }
+          pos.pts[m.to] += s;
+        }
+        return hit;
+      }
+
+      function clonePos(pos) {
+        return { pts: pos.pts.slice(), bar: { w: pos.bar.w, b: pos.bar.b }, off: { w: pos.off.w, b: pos.off.b } };
+      }
+
+      function without(arr, d) {
+        var c = arr.slice(); c.splice(c.indexOf(d), 1); return c;
+      }
+      function uniq(arr) { return arr.filter(function (x, i) { return arr.indexOf(x) === i; }); }
+
+      // Most dice that can still be played from here.
+      function maxDepth(pos, p, left) {
+        if (!left.length || pos.off[p] === 15) return 0;
+        var best = 0, ds = uniq(left);
+        for (var a = 0; a < ds.length; a++) {
+          var ms = singleMoves(pos, p, ds[a]);
+          for (var b = 0; b < ms.length; b++) {
+            var nx = clonePos(pos); applyTo(nx, p, ms[b]);
+            var dep = 1 + maxDepth(nx, p, without(left, ds[a]));
+            if (dep === left.length) return dep;
+            if (dep > best) best = dep;
+          }
+        }
+        return best;
+      }
+
+      // Legal next moves: must keep the most dice playable, and if only one
+      // of two different dice can be played it has to be the higher one.
+      function legalMoves(st) {
+        var p = st.turn, left = st.left;
+        if (st.phase !== 'move' || !left.length) return [];
+        var pos = clonePos(st);
+        var md = maxDepth(pos, p, left);
+        if (!md) return [];
+        var keep = [], ds = uniq(left);
+        ds.forEach(function (d) {
+          singleMoves(pos, p, d).forEach(function (m) {
+            var nx = clonePos(pos); applyTo(nx, p, m);
+            if (1 + maxDepth(nx, p, without(left, d)) === md) keep.push(m);
+          });
+        });
+        if (md === 1 && left.length === 2 && left[0] !== left[1]) {
+          var hi = Math.max(left[0], left[1]);
+          if (keep.some(function (m) { return m.die === hi; })) {
+            keep = keep.filter(function (m) { return m.die === hi; });
+          }
+        }
+        return keep;
+      }
+
+      var legalCache = null, legalV = -1;
+      function legal() {
+        if (legalCache && legalV === state.v) return legalCache;
+        legalCache = legalMoves(state); legalV = state.v;
+        return legalCache;
+      }
+
+      function pipCount(st, p) {
+        var n = st.bar[p] * 25;
+        for (var i = 1; i <= 24; i++) {
+          var c = st.pts[i] * sgn(p);
+          if (c > 0) n += c * (p === 'w' ? i : 25 - i);
+        }
+        return n;
+      }
+
+      function num(p, i) { return p === 'w' ? i : 25 - i; }
+      function notate(p, m, hit) {
+        return (m.from === 'bar' ? 'bar' : num(p, m.from)) + '/' +
+          (m.to === 'off' ? 'off' : num(p, m.to)) + (hit ? '*' : '');
+      }
+      function pair(rolled) { return rolled.length === 4 ? [rolled[0], rolled[0]] : rolled.slice(); }
+
+      // ---- actions ----------------------------------------------------------------
+
+      function myTurn() { return state.turn === me; }
+
+      function startGame() {
+        if ((state.phase === 'roll' || state.phase === 'move') &&
+            !confirm('Abandon this game and start a new one?')) return;
+        commit(function (s) {
+          var keep = { v: s.v, score: s.score, game: s.game };
+          var f = fresh(keep.score);
+          Object.keys(f).forEach(function (k) { s[k] = f[k]; });
+          s.v = keep.v; s.game = keep.game + 1;
+          var a, b;
+          do { a = die(); b = die(); } while (a === b);
+          s.opening = { w: a, b: b };
+          s.turn = a > b ? 'w' : 'b';
+          s.rolled = s.turn === 'w' ? [a, b] : [b, a];
+          s.left = s.rolled.slice();
+          s.phase = 'move';
+        }, true);
+      }
+
+      function roll() {
+        if (!myTurn() || state.phase !== 'roll') return;
+        commit(function (s) {
+          var a = die(), b = die();
+          s.rolled = a === b ? [a, a, a, a] : [a, b];
+          s.left = s.rolled.slice();
+          s.phase = 'move';
+          s.opening = null;
+        });
+      }
+
+      function move(m) {
+        commit(function (s) {
+          var p = s.turn;
+          s.hist.push({ pts: s.pts.slice(), bar: { w: s.bar.w, b: s.bar.b }, off: { w: s.off.w, b: s.off.b },
+            left: s.left.slice(), moves: s.moves.slice() });
+          var hit = applyTo(s, p, m);
+          s.left = without(s.left, m.die);
+          s.moves.push(notate(p, m, hit));
+          if (s.off[p] === 15) finish(s, p);
+        });
+      }
+
+      function finish(s, p) {
+        var o = opp(p), won = 1;
+        if (s.off[o] === 0) {
+          won = 2;
+          var trapped = s.bar[o] > 0;
+          for (var i = 1; i <= 24; i++) {
+            if (p === 'w' && i <= 6 && s.pts[i] < 0) trapped = true;
+            if (p === 'b' && i >= 19 && s.pts[i] > 0) trapped = true;
+          }
+          if (trapped) won = 3;
+        }
+        s.last = { who: p, roll: pair(s.rolled), moves: s.moves.slice() };
+        s.phase = 'over'; s.winner = p; s.won = won;
+        s.score[p] += won;
+        s.left = []; s.hist = [];
+      }
+
+      function undo() {
+        if (!myTurn() || state.phase !== 'move' || !state.hist.length) return;
+        commit(function (s) {
+          var h = s.hist.pop();
+          s.pts = h.pts; s.bar = h.bar; s.off = h.off; s.left = h.left; s.moves = h.moves;
+        });
+      }
+
+      function done() {
+        if (!myTurn() || state.phase !== 'move' || legal().length) return;
+        commit(function (s) {
+          s.last = { who: s.turn, roll: pair(s.rolled), moves: s.moves.slice() };
+          s.turn = opp(s.turn);
+          s.phase = 'roll';
+          s.rolled = []; s.left = []; s.moves = []; s.hist = [];
+          s.opening = null;
+        });
+      }
+
+      // ---- drawing --------------------------------------------------------------
+
+      var svg = document.getElementById('board');
+      var sel = null;
+
+      // Each player sees their own home board at bottom right.
+      function disp(i) { return me === 'b' ? 25 - i : i; }
+      function colX(d) {
+        if (d <= 6) return 745 - d * 55;
+        if (d <= 12) return 345 - (d - 6) * 55;
+        if (d <= 18) return 15 + (d - 13) * 55;
+        return 415 + (d - 19) * 55;
+      }
+      function step(n) { return n <= 5 ? 48 : Math.min(48, 200 / (n - 1)); }
+      function slotY(d, k, n) {
+        return d <= 12 ? 585 - 24 - k * step(n) : 15 + 24 + k * step(n);
+      }
+
+      function sources(ms) { return uniq(ms.map(function (m) { return m.from; })); }
+
+      function render() {
+        var ms = (myTurn() && state.phase === 'move') ? legal() : [];
+        var srcs = sources(ms);
+        if (sel !== null && srcs.indexOf(sel) < 0) sel = null;
+        if (sel === null && srcs.length === 1) sel = srcs[0];
+        var targets = sel === null ? [] : ms.filter(function (m) { return m.from === sel; });
+
+        var o = [];
+        o.push('<rect class="board-bg" x="0" y="0" width="760" height="600" rx="6"/>');
+        o.push('<rect class="board-bg" x="770" y="0" width="90" height="600" rx="6"/>');
+        o.push('<line class="divider" x1="770" y1="300" x2="860" y2="300"/>');
+        o.push('<rect class="barc" x="345" y="0" width="70" height="600"/>');
+
+        for (var d = 1; d <= 24; d++) {
+          var x = colX(d), cls = d % 2 ? 'tri-a' : 'tri-b';
+          if (d <= 12) {
+            o.push('<polygon class="' + cls + '" points="' + x + ',585 ' + (x + 55) + ',585 ' + (x + 27.5) + ',345"/>');
+            o.push('<text class="lbl" x="' + (x + 27.5) + '" y="593">' + d + '</text>');
+          } else {
+            o.push('<polygon class="' + cls + '" points="' + x + ',15 ' + (x + 55) + ',15 ' + (x + 27.5) + ',255"/>');
+            o.push('<text class="lbl" x="' + (x + 27.5) + '" y="7">' + d + '</text>');
+          }
+        }
+
+        // checkers on points
+        for (var i = 1; i <= 24; i++) {
+          var v = state.pts[i];
+          if (!v) continue;
+          var n = Math.abs(v), col = v > 0 ? 'w' : 'b', dd = disp(i), cx = colX(dd) + 27.5;
+          for (var k = 0; k < n; k++) {
+            var extra = '';
+            if (k === n - 1 && srcs.indexOf(i) >= 0) extra = sel === i ? ' sel' : ' src';
+            o.push('<circle class="ck-' + col + extra + '" cx="' + cx + '" cy="' + slotY(dd, k, n) + '" r="23"/>');
+          }
+          if (n > 5) o.push('<text class="cnt cnt-' + col + '" x="' + cx + '" y="' + slotY(dd, n - 1, n) + '">' + n + '</text>');
+        }
+
+        // bar: mine below the middle, theirs above
+        ['w', 'b'].forEach(function (p) {
+          var n = state.bar[p], mine = p === me;
+          for (var k = 0; k < n; k++) {
+            var cy = mine ? 345 + k * Math.min(48, 200 / Math.max(1, n - 1)) : 255 - k * Math.min(48, 200 / Math.max(1, n - 1));
+            var extra = (mine && k === n - 1 && srcs.indexOf('bar') >= 0) ? (sel === 'bar' ? ' sel' : ' src') : '';
+            o.push('<circle class="ck-' + p + extra + '" cx="380" cy="' + cy + '" r="23"/>');
+          }
+        });
+
+        // borne off: mine in the bottom tray, theirs in the top
+        ['w', 'b'].forEach(function (p) {
+          for (var k = 0; k < state.off[p]; k++) {
+            var y = p === me ? 588 - (k + 1) * 17 : 12 + k * 17;
+            o.push('<rect class="ck-' + p + '" x="779" y="' + y + '" width="72" height="13" rx="3"/>');
+          }
+        });
+
+        // where the selected checker can go
+        targets.forEach(function (m) {
+          if (m.to === 'off') {
+            o.push('<rect class="tray-target" x="772" y="302" width="86" height="296" rx="6"/>');
+          } else {
+            var d2 = disp(m.to), own = Math.max(0, state.pts[m.to] * sgn(me));
+            o.push('<circle class="ghost" cx="' + (colX(d2) + 27.5) + '" cy="' + slotY(d2, own, own + 1) + '" r="23"/>');
+          }
+        });
+
+        // dice, on the roller's side
+        if (state.rolled.length && state.phase !== 'over') {
+          var dice = state.rolled, size = dice.length === 4 ? 40 : 46, gap = 10;
+          var total = dice.length * size + (dice.length - 1) * gap;
+          var cx0 = (state.turn === me ? 580 : 180) - total / 2;
+          var pool = state.left.slice();
+          dice.forEach(function (val, idx) {
+            var at = pool.indexOf(val), live = at >= 0;
+            if (live) pool.splice(at, 1);
+            o.push(drawDie(cx0 + idx * (size + gap), 300 - size / 2, size, val, live));
+          });
+        }
+
+        // click targets (on top of everything)
+        for (var d3 = 1; d3 <= 24; d3++) {
+          var hy = d3 <= 12 ? 300 : 0, pt = me === 'b' ? 25 - d3 : d3;
+          o.push('<rect class="hit" data-hit="' + pt + '" x="' + colX(d3) + '" y="' + hy + '" width="55" height="300"/>');
+        }
+        o.push('<rect class="hit" data-hit="bar" x="345" y="0" width="70" height="600"/>');
+        o.push('<rect class="hit" data-hit="off" x="770" y="0" width="90" height="600"/>');
+
+        svg.innerHTML = o.join('');
+        renderUI(ms);
+      }
+
+      var PIPS = {
+        1: [[0, 0]], 2: [[-1, -1], [1, 1]], 3: [[-1, -1], [0, 0], [1, 1]],
+        4: [[-1, -1], [1, -1], [-1, 1], [1, 1]], 5: [[-1, -1], [1, -1], [0, 0], [-1, 1], [1, 1]],
+        6: [[-1, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [1, 1]]
+      };
+      function drawDie(x, y, s, val, live) {
+        var g = '<g class="' + (live ? '' : 'used') + '"><rect class="die" x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" rx="' + s * 0.18 + '"/>';
+        PIPS[val].forEach(function (p) {
+          g += '<circle class="pip" cx="' + (x + s / 2 + p[0] * s * 0.27) + '" cy="' + (y + s / 2 + p[1] * s * 0.27) + '" r="' + s * 0.09 + '"/>';
+        });
+        return g + '</g>';
+      }
+
+      var $ = function (id) { return document.getElementById(id); };
+
+      function renderUI(ms) {
+        var them = opp(me), s = state, msg = '';
+        $('seat').textContent = 'You are ' + NAME[me] + ' · pips ' + pipCount(s, me) + ' vs ' + pipCount(s, them);
+        $('score').textContent = 'White ' + s.score.w + ' · Black ' + s.score.b;
+
+        if (s.phase === 'start') {
+          msg = 'Press Start to roll for who goes first.';
+        } else if (s.phase === 'over') {
+          msg = (s.winner === me ? 'You win' : NAME[s.winner] + ' wins') +
+            (s.won === 3 ? ' — backgammon, 3 points' : s.won === 2 ? ' — gammon, 2 points' : ' — 1 point');
+        } else if (s.phase === 'roll') {
+          msg = myTurn() ? 'Your turn — roll.' : NAME[them] + "'s turn.";
+        } else if (myTurn()) {
+          if (s.opening) msg = 'You ' + s.opening[me] + ', ' + NAME[them] + ' ' + s.opening[them] + ' — you go first. ';
+          if (ms.length) msg += sel === null ? 'Pick a checker.' : 'Pick where it goes.';
+          else if (s.left.length) msg += s.moves.length ? 'No more legal moves.' : 'No legal moves.';
+          else msg += 'Done?';
+        } else {
+          if (s.opening) msg = NAME[s.turn] + ' ' + s.opening[s.turn] + ', you ' + s.opening[me] + ' — ' + NAME[s.turn] + ' goes first. ';
+          msg += 'Their moves show up when they press Done.';
+        }
+        $('status').textContent = msg;
+
+        var line = '';
+        if (s.phase === 'move' && s.moves.length) {
+          line = NAME[s.turn] + ' ' + pair(s.rolled).join('-') + ': ' + s.moves.join(' ');
+        } else if (s.last) {
+          line = NAME[s.last.who] + ' ' + s.last.roll.join('-') + ': ' + (s.last.moves.join(' ') || 'no move');
+        }
+        $('last').textContent = line;
+
+        var rollBtn = $('roll');
+        if (s.phase === 'start' || s.phase === 'over') {
+          rollBtn.textContent = s.phase === 'start' ? 'Start' : 'Next game';
+          rollBtn.disabled = false;
+        } else {
+          rollBtn.textContent = 'Roll';
+          rollBtn.disabled = !(myTurn() && s.phase === 'roll');
+        }
+        $('undo').disabled = !(myTurn() && s.phase === 'move' && s.hist.length);
+        var doneBtn = $('done');
+        doneBtn.disabled = !(myTurn() && s.phase === 'move' && !ms.length);
+        doneBtn.textContent = (myTurn() && s.phase === 'move' && !s.moves.length && !ms.length) ? 'Pass' : 'Done';
+
+        $('swap').textContent = 'switch to ' + NAME[them];
+      }
+
+      // ---- input ------------------------------------------------------------------
+
+      svg.addEventListener('click', function (e) {
+        var el = e.target.closest('[data-hit]');
+        if (!el || !myTurn() || state.phase !== 'move') return;
+        var key = el.getAttribute('data-hit');
+        var spot = (key === 'bar' || key === 'off') ? key : +key;
+        var ms = legal();
+        if (sel !== null) {
+          var hit = ms.filter(function (m) { return m.from === sel && m.to === spot; });
+          if (hit.length) {
+            // When two dice could bear off the same checker, use the smaller.
+            hit.sort(function (a, b) { return a.die - b.die; });
+            move(hit[0]);
+            return;
+          }
+        }
+        sel = sources(ms).indexOf(spot) >= 0 ? spot : null;
+        render();
+      });
+
+      $('roll').addEventListener('click', function () {
+        if (state.phase === 'start' || state.phase === 'over') startGame(); else roll();
+      });
+      $('undo').addEventListener('click', undo);
+      $('done').addEventListener('click', done);
+      $('new').addEventListener('click', function () { startGame(); });
+      $('swap').addEventListener('click', function () {
+        if (!confirm('Switch to ' + NAME[opp(me)] + '? Only do this if you picked the wrong side.')) return;
+        put('bg-' + SLUG + '-seat', opp(me));
+        location.replace(location.pathname);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.metaKey || e.ctrlKey || e.altKey || !me) return;
+        if (e.key === 'r' || e.key === ' ') { e.preventDefault(); $('roll').disabled || $('roll').click(); }
+        else if (e.key === 'Enter') { if (!$('done').disabled) done(); }
+        else if (e.key === 'u' || e.key === 'Backspace') { undo(); }
+        else if (e.key === 'Escape') { sel = null; render(); }
+      });
+
+      // ---- network --------------------------------------------------------------
+      // Moves travel through ntfy.sh, a free public message relay that works
+      // over plain HTTPS on any network. It keeps messages for 12 hours, so a
+      // player who opens the page later still gets the latest game. Anonymous
+      // use allows 250 messages a day per IP, so we only send when something
+      // is shared: a new game, the end of a turn, the end of a game.
+      // Both sides keep the whole game; the newer version always wins.
+
+      var NTFY = 'https://ntfy.sh/' + TOPIC;
+      var seen = {}, live = false, unsent = false, limited = false;
+      var es = null, lastRepub = 0, syncing = false;
+      var sharedKey = 'bg-' + SLUG + '-shared-' + me;
+
+      function setNet() {
+        var el = $('net');
+        el.className = live && !unsent ? 'on' : '';
+        el.textContent = limited ? 'daily message limit reached — retrying'
+          : unsent ? 'sending…'
+          : live ? '● live' : '○ connecting…';
+      }
+
+      // (game, v, h) orders every version of the game.
+      function newer(a, b) {
+        var ga = a.game | 0, gb = b.game | 0;
+        if (ga !== gb) return ga > gb;
+        return a.v > b.v || (a.v === b.v && a.h > b.h);
+      }
+
+      function snapshot() {
+        var c = JSON.parse(JSON.stringify(state));
+        c.hist = [];
+        return c;
+      }
+
+      function getShared() {
+        try { var s = JSON.parse(get(sharedKey)); return valid(s) ? s : null; } catch (e) { return null; }
+      }
+
+      function share() {
+        put(sharedKey, JSON.stringify(snapshot()));
+        publish();
+      }
+
+      function publish() {
+        var s = getShared();
+        if (!s) return;
+        unsent = true; setNet();
+        var body = JSON.stringify({ t: 'state', from: me, s: s });
+        fetch(NTFY, { method: 'POST', body: body, keepalive: true })
+          .then(function (r) {
+            limited = r.status === 429;
+            if (r.ok) unsent = false;
+            setNet();
+          })
+          .catch(function () { setNet(); });
+      }
+      setInterval(function () { if (unsent) publish(); }, 20000);
+
+      function adopt(s) {
+        s.hist = [];
+        state = s; sel = null; legalCache = null;
+        saveState();
+        put(sharedKey, JSON.stringify(s));
+        render();
+      }
+
+      // One ntfy message. Returns the state in it, if any.
+      function take(m) {
+        if (!m || m.event !== 'message' || seen[m.id]) return null;
+        seen[m.id] = 1;
+        try {
+          var d = JSON.parse(m.message);
+          if (d.t === 'state' && valid(d.s)) { d.s.__from = d.from; return d.s; }
+        } catch (e) {}
+        return null;
+      }
+
+      function onLive(m) {
+        var s = take(m);
+        if (!s) return;
+        var from = s.__from; delete s.__from;
+        if (newer(s, state)) {
+          adopt(s);
+        } else if (from !== me && newer(getShared() || state, s) && Date.now() - lastRepub > 15000) {
+          // The other side sent something older than what we last shared:
+          // they missed an update, so send it again.
+          lastRepub = Date.now();
+          publish();
+        }
+      }
+
+      // On load (and when the tab comes back): read what the relay holds,
+      // then listen for new messages.
+      function sync() {
+        if (syncing) return;
+        syncing = true;
+        if (es) { es.close(); es = null; }
+        live = false; setNet();
+        fetch(NTFY + '/json?poll=1&since=all')
+          .then(function (r) { return r.ok ? r.text() : ''; })
+          .then(function (txt) {
+            var best = null;
+            txt.split('\n').forEach(function (line) {
+              if (!line) return;
+              try {
+                var s = take(JSON.parse(line));
+                if (s) { delete s.__from; if (!best || newer(s, best)) best = s; }
+              } catch (e) {}
+            });
+            if (best && newer(best, state)) adopt(best);
+            // The relay forgets after 12 hours; put our last shared state back.
+            var mine = getShared();
+            if (mine && mine.phase !== 'start' && (!best || newer(mine, best))) publish();
+          })
+          .catch(function () {})
+          .then(function () { syncing = false; listen(); });
+      }
+
+      function listen() {
+        es = new EventSource(NTFY + '/sse');
+        es.onopen = function () { live = true; setNet(); };
+        es.onmessage = function (e) { try { onLive(JSON.parse(e.data)); } catch (x) {} };
+        es.onerror = function () {
+          live = false; setNet();
+          if (es && es.readyState === 2) { es = null; setTimeout(sync, 5000); }
+        };
+      }
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible' && me) sync();
+      });
+      window.addEventListener('online', function () { if (me) sync(); });
+
+      // ---- boot -----------------------------------------------------------------
+
+      function boot() {
+        if (asParam) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+        loadState();
+        render();
+        sync();
+      }
+
+      if (me) {
+        boot();
+      } else {
+        $('pick').hidden = false;
+        $('pick').addEventListener('click', function (e) {
+          var b = e.target.closest('[data-seat]');
+          if (!b) return;
+          me = b.getAttribute('data-seat');
+          put('bg-' + SLUG + '-seat', me);
+          $('pick').hidden = true;
+          boot();
+        });
+      }
+    })();
+    </script>
+  </body>
+</html>
